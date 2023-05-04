@@ -1,0 +1,48 @@
+<div *ngIf="showDashboard" style="font-size:x-small;">
+	<div class="row dashboard-sup">
+		<div class="col-md-12">
+			<div class="widget" >
+			    <div class="md-progress-bar" *ngIf="isLoading">
+			        <div class="indeterminate"></div>
+			    </div>
+			    <div class="box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+			        <div class="box-header with-border">
+			           <!-- <h3 class="box-title font-size-14">LISTADO DE PUBLICACIONES</h3>-->
+			        </div>
+			        <!-- /.box-header -->
+			        <div class="box-body scrollbar right-sidebar" style="height:200px; ">
+						<chm-publications-list showToolbar="false"></chm-publications-list>
+			        </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+    <div class="row  dashboard-inf">
+        <div class="col-md-4">
+            <chm-dashboard-status></chm-dashboard-status>
+        </div>
+        <div class="col-md-4">
+            <chm-dashboard-top-brands></chm-dashboard-top-brands>
+            <chm-dashboard-top-categories></chm-dashboard-top-categories>
+        </div>
+        <div class="col-md-4">
+            <chm-dashboard-top-products></chm-dashboard-top-products>
+        </div>
+    </div>
+<!--     <div class="row">
+        <div class="col-md-8">
+            <chm-dashboard-running-methods></chm-dashboard-running-methods>
+        </div>
+        <div class="col-md-4">
+            <chm-dashboard-alerts></chm-dashboard-alerts>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <chm-dashboard-recently-finished-methods></chm-dashboard-recently-finished-methods>
+        </div>
+        <div class="col-md-4">
+            <chm-dashboard-announces></chm-dashboard-announces>
+        </div>
+    </div> -->
+</div>

@@ -1,0 +1,14 @@
+.modal-body {
+    margin: 0 80px;
+}
+
+button.btn {
+    font-size: x-large;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+button.btn.btn-close {
+    color: inherit;
+    text-transform: none;
+}

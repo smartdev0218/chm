@@ -1,0 +1,37 @@
+.step4-div-border{
+    border: solid 1px #124f6e;
+  
+}
+
+.padding-div-text{
+    padding-left: 10px !important;
+}
+.heading-bg{
+    border: solid 1px #124f6e;
+    background: #124f6e;
+    color:white;
+    padding-top: 6px;
+}
+
+.sub-heading-font-weight{
+font-weight: bold;
+}
+
+.fa-check-circle{
+ size: 20px !important;
+ color: #388B8D;
+}
+
+.fa-exclamation-circle{
+    size: 20px !important;
+ color: #EF3E56;
+}
+
+.float-right{
+    float: right;
+    padding-right: 7px;
+}
+.a-link{
+color: #388B8D;
+text-decoration: underline;
+}

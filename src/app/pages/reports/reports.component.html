@@ -1,0 +1,110 @@
+<div>
+
+    <!-- TOP 5 PRODUCTS -->
+    <div class="box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+        <div class="box-header with-border">
+            <h3 class="box-title font-size-14">{{'REPORTS.PRODUCTS_TOP5' | translate}}</h3>
+        </div>
+
+        <div class="box-body">
+
+            <div class="md-progress-bar" *ngIf="isLoadingTop5products">
+                <div class="indeterminate"></div>
+            </div>
+            <canvas id="chartTop5ProductsByChannel"></canvas>
+
+        </div>
+        <div>
+            {{'REPORTS.DOWNLOAD' | translate}} |
+            <a href="javascript:void(0)"><i class="fa fa-file-excel-o  icons-size skin-blue-secondary"
+                     title="XLSX"></i></a>
+            |
+            <a href="javascript:void(0)"><i class="fa fa-file-pdf-o  icons-size skin-blue-secondary"
+                     title="PDF"></i></a>
+            |
+            <a href="javascript:void(0)"><i class="fa fa-table  icons-size skin-blue-secondary" 
+                    title="CSV"></i></a>
+        </div>
+    </div>
+    <hr>
+    <!-- TOP QUINCENAS VENTAS -->
+    <div class="box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+        <div class="box-header with-border">
+            <h3 class="box-title font-size-14">{{'REPORTS.PRODUCTS_TOP15_SELL' | translate}}</h3>
+        </div>
+
+        <div class="box-body">
+
+            <div class="md-progress-bar" *ngIf="isLoadingTopFifteen">
+                <div class="indeterminate"></div>
+            </div>
+            <canvas id="chartTopFifteen"></canvas>
+
+        </div>
+        <div>
+            {{'REPORTS.DOWNLOAD' | translate}} |
+            <a href="javascript:void(0)"><i class="fa fa-file-excel-o  icons-size skin-blue-secondary"
+                    title="XLSX"></i></a>
+            |
+            <a href="javascript:void(0)"><i class="fa fa-file-pdf-o  icons-size skin-blue-secondary"
+                    title="PDF"></i></a>
+            |
+            <a href="javascript:void(0)"><i class="fa fa-table  icons-size skin-blue-secondary" 
+                    title="CSV"></i></a>
+        </div>
+    </div>
+    <hr>
+    <!-- AVERAGE TICKET -->
+    <div class="box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+        <div class="box-header with-border">
+            <h3 class="box-title font-size-14">{{'REPORTS.TICKET_MEAN' | translate}}(€)</h3>
+        </div>
+
+        <div class="box-body">
+
+            <div class="md-progress-bar" *ngIf="isLoadingAverageTicket">
+                <div class="indeterminate"></div>
+            </div>
+            <canvas id="chartAverageTicket"></canvas>
+
+        </div>
+        <div>
+            {{'REPORTS.DOWNLOAD' | translate}} |
+            <a href="javascript:void(0)"><i class="fa fa-file-excel-o  icons-size skin-blue-secondary"
+                     title="XLSX"></i></a>
+            |
+            <a href="javascript:void(0)"><i class="fa fa-file-pdf-o  icons-size skin-blue-secondary"
+                     title="PDF"></i></a>
+            |
+            <a href="javascript:void(0)"><i class="fa fa-table  icons-size skin-blue-secondary" 
+                    title="CSV"></i></a>
+        </div>
+    </div>
+    <hr>
+    <!-- SELLS EVOLUTION -->
+    <div class="box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+        <div class="box-header with-border">
+            <h3 class="box-title font-size-14">{{'REPORTS.EVOL_PER_CHANNEL' | translate}}</h3>
+        </div>
+
+        <div class="box-body">
+
+            <div class="md-progress-bar" *ngIf="isLoadingSellsEvolution">
+                <div class="indeterminate"></div>
+            </div>
+            <canvas id="chartSellsEvolution"></canvas>
+
+        </div>
+        <div>
+            {{'REPORTS.DOWNLOAD' | translate}} |
+            <a href="javascript:void(0)"><i class="fa fa-file-excel-o  icons-size skin-blue-secondary"
+                     title="XLSX"></i></a>
+            |
+            <a href="javascript:void(0)"><i class="fa fa-file-pdf-o  icons-size skin-blue-secondary"
+                     title="PDF"></i></a>
+            |
+            <a href="javascript:void(0)"><i class="fa fa-table  icons-size skin-blue-secondary" 
+                    title="CSV"></i></a>
+        </div>
+    </div>
+</div>

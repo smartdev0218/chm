@@ -1,0 +1,202 @@
+<div role="dialog">
+    <div>
+        <div class="md-progress-bar" *ngIf="isLoadingChannels">
+            <div class="indeterminate"></div>
+        </div>
+        <div class="modal-body" *ngIf="!isLoadingChannels">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="channelSelector" class="control-label">{{'MESSENGER.CHANNEL_SELECT' | translate}}</label>
+                    <select id="channelSelector" class="form-control" [(ngModel)]="selectedChannel" (change)="loadChannelMessages()">
+                        <option [ngValue]="null"></option>
+                        <option *ngFor="let channel of channels" [ngValue]="channel">{{channel.name}}</option>
+                    </select>
+                    <img *ngIf="selectedChannel && selectedChannel.imageThumbnail" class="messenger-channel-image"
+                        [src]="selectedChannel.imageThumbnail" [alt]="selectedChannel.name"/>
+                </div>
+                <a *ngIf="selectedChannel && !isLoadingUnansweredMessages && !isLoadingAnsweredMessages"
+                    class="pointer-cursor pull-right" (click)="refreshMessages()"><em class="fa fa-refresh"></em></a>
+            </div>
+            <div *ngIf="selectedChannel">
+                <h4>{{'MESSENGER.UNANSWERED_MESSAGES' | translate}}</h4>
+                <div class="pull-right export-buttons">
+                    <a class="pointer-cursor"><em class="fa fa-file-excel-o" (click)="export('XLS', false)" title="XLSX"></em></a>
+                    |
+                    <a class="pointer-cursor"><em class="fa fa-file-pdf-o" (click)="export('PDF', false)" title="PDF"></em></a>
+                    |
+                    <a class="pointer-cursor"><em class="fa fa-table" (click)="export('CSV', false)" title="CSV"></em></a>
+                </div>
+                <div class="md-progress-bar" [class.invisible]="!isLoadingUnansweredMessages">
+                    <div class="indeterminate"></div>
+                </div>
+                <ngx-datatable id="unanswered-messages-datatable" class="dark striped datatable-scroll-i scrollbar"
+                    [rows]="unansweredMessages.data" [footerHeight]="35" rowHeight="auto" columnMode="force"
+                    [externalPaging]="true" [count]="unansweredMessages.page.totalElements"
+                    [offset]="unansweredMessages.page.pageNumber" [limit]="unansweredMessages.page.size"
+                    (page)="setUnansweredMessagesPage($event)"
+                    [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}">
+                    <ngx-datatable-column name="messageId">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.EXTERNAL_ID' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{value}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="itemId">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.RELATION' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                            <span *ngIf="row.messageType === 'QUESTION'">
+                                {{'MESSENGER.PRODUCT' | translate}}
+                                <span class="pointer-cursor text-decoration" (click)="showProductDetails(value)">{{value}}</span>
+                            </span>
+                            <span *ngIf="row.messageType === 'DISPUTE'">
+                                {{'MESSENGER.ORDER' | translate}}
+                                <span class="pointer-cursor text-decoration" (click)="showOrderDetails(value)">{{value}}</span>
+                            </span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="messageType">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.TYPE' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{value ? ('MESSENGER.TYPE_' + value | translate) : ''}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="text">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.MESSAGE' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <span [title]="value">{{ value && value.length > 300 ? (value | slice:0:300) + '...' : value }}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="created">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.DATE' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{value | date: 'dd/MM/yyyy HH:mm:ss'}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="globalStatus">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'COMMON_WORDS.STATUS' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <em *ngIf="value === 'RECEIVED'" class="fa fa-edit text-info" [title]="'MESSENGER.STATUS_RECEIVED' | translate"></em>
+                            <em *ngIf="value === 'ERROR'" class="fa fa-exclamation-circle text-danger" [title]="'MESSENGER.STATUS_ERROR' | translate"></em>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="action">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'PRESETS.ACTION' | translate }}
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <a class="pointer-cursor" (click)="openAnswerDialog(row)" [title]="'MESSENGER.REPLY' | translate">
+                                <em class="fa fa-reply-all"></em>
+                            </a>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+                <h4>{{'MESSENGER.ANSWERED_MESSAGES' | translate}}</h4>
+                <div class="pull-right export-buttons">
+                    <a class="pointer-cursor"><em class="fa fa-file-excel-o" (click)="export('XLS', true)" title="XLSX"></em></a>
+                    |
+                    <a class="pointer-cursor"><em class="fa fa-file-pdf-o" (click)="export('PDF', true)" title="PDF"></em></a>
+                    |
+                    <a class="pointer-cursor"><em class="fa fa-table" (click)="export('CSV', true)" title="CSV"></em></a>
+                </div>
+                <div class="md-progress-bar" [class.invisible]="!isLoadingAnsweredMessages">
+                    <div class="indeterminate"></div>
+                </div>
+                <ngx-datatable id="answered-messages-datatable" class="dark striped datatable-scroll-i scrollbar"
+                    [rows]="answeredMessages.data" [footerHeight]="35" rowHeight="auto" columnMode="force"
+                    [externalPaging]="true" [count]="answeredMessages.page.totalElements"
+                    [offset]="answeredMessages.page.pageNumber" [limit]="answeredMessages.page.size"
+                    (page)="setAnsweredMessagesPage($event)"
+                    [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}">
+                    <ngx-datatable-column name="messageId">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.EXTERNAL_ID' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{value}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="itemId">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.RELATION' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                            <span *ngIf="row.messageType === 'QUESTION'">
+                                {{'MESSENGER.PRODUCT' | translate}}
+                                <span class="pointer-cursor text-decoration" (click)="showProductDetails(value)">{{value}}</span>
+                            </span>
+                            <span *ngIf="row.messageType === 'DISPUTE'">
+                                {{'MESSENGER.ORDER' | translate}}
+                                <span class="pointer-cursor text-decoration" (click)="showOrderDetails(value)">{{value}}</span>
+                            </span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="messageType">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.TYPE' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{value ? ('MESSENGER.TYPE_' + value | translate) : ''}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="text">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.MESSAGE' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <span [title]="value">{{ value && value.length > 300 ? (value | slice:0:300) + '...' : value }}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="answerText">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.ANSWER' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <span [title]="value">{{ value && value.length > 300 ? (value | slice:0:300) + '...' : value }}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="created">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.DATE' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{value | date: 'dd/MM/yyyy HH:mm:ss'}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="answerCreated">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'MESSENGER.ANSWER_DATE' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            {{value | date: 'dd/MM/yyyy HH:mm:ss'}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="globalStatus">
+                        <ng-template ngx-datatable-header-template>
+                            {{ 'COMMON_WORDS.STATUS' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <em *ngIf="value === 'ANSWERED'" class="fa fa-clock-o text-warning" [title]="'MESSENGER.STATUS_ANSWERED' | translate"></em>
+                            <em *ngIf="value === 'CLOSED'" class="fa fa-check text-success" [title]="'MESSENGER.STATUS_CLOSED' | translate"></em>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </div>
+    </div>
+</div>
+<bs-modal-backdrop *ngIf="showGlobalLoading"></bs-modal-backdrop>
+<div *ngIf="showGlobalLoading" class="md-progress-bar loading-order">
+    <div class="indeterminate"></div>
+</div>

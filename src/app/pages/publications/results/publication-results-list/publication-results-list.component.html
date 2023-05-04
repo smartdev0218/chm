@@ -1,0 +1,161 @@
+
+<!-- <md-progress-bar mode="indeterminate" *ngIf="isLoading === true"></md-progress-bar> -->
+<div class="md-progress-bar" *ngIf="isLoading">
+    <div class="indeterminate"></div>
+  </div>
+
+<div class="row">
+<br>
+  <!--<div class="col-md-1">&nbsp;</div>-->
+  <div class="col-md-12">
+
+    <!-- Listado de elementos -->
+    <div *ngIf="!isLoading">
+      
+
+
+      <div class="accordion" id="accordionExample">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  {{'FILTER.FILTERS' | translate | titlecase}} <i class="fa fa-angle-right"></i>
+              </button>
+            </h2>
+          </div>
+      
+          <div id="collapseOne" class="collapse collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="filterMethodName">{{ 'METHODS.METHOD_NAME' | translate | titlecase}}</label>
+                  <input name="filterMethodName"class="form-control" type='text' placeholder="{{ 'METHODS.METHOD_NAME' | translate | titlecase}}" (keyup)='updateFilter($event)' />
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <ngx-datatable 
+           class="dark striped"
+           [rows]="publicationResults"
+           [columnMode]="'flex'"
+           [headerHeight]="50"
+           [footerHeight]="50"
+           [rowHeight]="'auto'"
+           [limit]="20"
+           [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}">
+           
+           
+           <ngx-datatable-column name="methodName" [flexGrow]="1" [sortable]="true">
+            <ng-template let-column="column" ngx-datatable-header-template  let-sort="sortFn" class="context-menu">
+                <span (click)="sort()" class="context-menu ">  {{ 'METHODS.METHOD_NAME' | translate }}  </span>
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="initDate" [flexGrow]="1" [sortable]="true">
+            <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+              <span (click)="sort()" class="context-menu " > {{ 'DASHBOARD_CHNL_STATUS.INITDATE' | translate }}   </span>
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | date: 'MMM d, y, H:mm:ss '  }}
+            </ng-template>
+          </ngx-datatable-column>
+
+
+          <ngx-datatable-column name="endDate" [flexGrow]="1" [sortable]="true">
+            <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+                <span (click)="sort()" class="context-menu"> {{ 'DASHBOARD_CHNL_STATUS.ENDDATE' | translate }}  </span>
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value | date: 'MMM d, y, H:mm:ss '  }}
+            </ng-template>
+          </ngx-datatable-column>
+
+
+          <ngx-datatable-column name="countProducts" [flexGrow]="1">
+            <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+                <span (click)="sort()" class="context-menu"> # {{ 'PUBLICATION.PRODUCTS' | translate }} </span>
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="countOrders" [flexGrow]="1">
+            <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+                <span (click)="sort()" class="context-menu"> # {{ 'PUBLICATION.ORDERS' | translate }} </span>
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+          
+          <ngx-datatable-column name="countError" [flexGrow]="1">
+            <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+                <span (click)="sort()" class="context-menu"> # {{ 'PUBLICATION.ERROR' | translate }} </span>
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="error" [flexGrow]="1">
+            <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+                <span (click)="sort()" class="context-menu">{{ 'PUBLICATION.ERROR' | translate }}  </span>
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <span title="{{ value }}">{{ (value.length>80)? (value | slice:0:80)+'...':(value) }}</span>
+           
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="completed" [flexGrow]="1">
+            <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+                <span (click)="sort()" class="context-menu"> {{ 'PUBLICATION.STATUS' | translate }}  </span>
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <div *ngIf="value"> {{ 'PUBLICATION.COMPLETED' | translate }}  </div> 
+              <div *ngIf="!value"> {{ 'PUBLICATION.INCOMPLETE' | translate }}  </div> 
+            </ng-template>
+          </ngx-datatable-column>
+
+         <ngx-datatable-column name="name" [flexGrow]="1">
+          <ng-template let-column="column" ngx-datatable-header-template class="context-menu">
+            {{ 'PRESETS.ACTION' | translate }} 
+          </ng-template>
+            <ng-template  let-row="row" let-value="value" ngx-datatable-cell-template>
+              <div *ngIf="((row.countProducts > 0) ||  (row.countOrders > 0))">
+                <a href="javascript:void(0)"><i class="fa fa-external-link" (click)="openDetailDialog(row)" title="Ver Detalle Productos"></i> </a>    |     
+                <a href="javascript:void(0)"><i class="fa fa-file-excel-o  icons-size skin-blue-secondary" (click)="export(row,1)" title="XLSX"></i></a>
+                | 
+                <a href="javascript:void(0)"><i class="fa fa-file-pdf-o  icons-size skin-blue-secondary" (click)="export(row,2)" title="PDF"></i></a>
+                | 
+                <a href="javascript:void(0)"><i class="fa fa-table  icons-size skin-blue-secondary" (click)="export(row,3)" title="CSV"></i></a> 
+          <!--       <span>&nbsp;&nbsp; | &nbsp;&nbsp;</span>
+                <span>
+                  <a class="" (click)="deletePublicationResult(row)" style="cursor:pointer;" title="Eliminar">
+                    <i class="fa fa-trash"></i>
+                  </a>
+                </span> -->
+              </div>
+            </ng-template>
+        </ngx-datatable-column>
+
+
+      </ngx-datatable>
+    </div>
+
+    <!-- Acciones -->
+
+<br>
+<button (click)="goPublicationList()" class="btn btn-primary">{{ 'PUBLICATION.BACK_TO_PUBLICATION_LIST' | translate}}</button>
+  </div>
+  <!--<div class="col-md-1">&nbsp;</div>-->
+
+
+</div>

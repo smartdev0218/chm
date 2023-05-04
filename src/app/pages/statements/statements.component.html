@@ -1,0 +1,56 @@
+<section style="margin-bottom:10px;" *ngIf="isTabLoading || isLoading">
+  <div class="md-progress-bar">
+    <div class="indeterminate"></div>
+  </div>
+</section>
+
+<section *ngIf="!isTabLoading">
+  <!-- Custom Tabs -->
+  <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs" [ngClass]="{ 'disable-load': deshabilitado }">
+      <li class="active" *ngFor="let channel of channels.slice(0, 1)" id="tab{{channel.channelId}}link">
+        <a href="#tab_1" data-toggle="tab" aria-expanded="true" (click)="getChannelData(channel)">{{channel.name}}</a>
+      </li>
+      <li class="" *ngFor="let channel of channels.slice(1, channels.length)" id="tab{{channel.channelId}}link">
+        <a href="#tab_1" data-toggle="tab" aria-expanded="true" (click)="getChannelData(channel)">{{channel.name}}</a>
+      </li>
+    </ul>
+  </div>
+  <!-- Custom Tabs end -->
+
+  <div class="row pad-5A">
+    <a (click)="generateStatement(activeChannel)" class="btn btn-primary pull-right" >{{'STATEMENTS.GENERATE_STATEMENT' | translate}}</a>
+    <br>
+    <section style="margin-bottom:10px;" *ngIf="!statements || statements.length == 0 ">
+      <div class="container">
+        <h3>{{ 'STATEMENTS.NOT_STATEMENTS' | translate }}</h3>
+      </div>
+    </section>
+
+    <section *ngIf="statements && statements.length > 0 ">
+      <div class="container">
+        <div class="col-md-2"></div>
+        <div class="row pad-5A">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>{{ 'STATEMENTS.DATE' | translate}}</th>
+              <th>{{ 'STATEMENTS.STATUS' | translate}}</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let statement of statements">
+              <td >{{statement.date | date:"dd/MM/yyyy HH:mm:ss"}}</td>
+              <td >{{statement.status}}</td>
+              <td ><a href="{{statement.filename}}" target="_blank" *ngIf="statement.filename">{{ 'STATEMENTS.DOWNLOAD' | translate}}</a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </section>
+  </div>
+
+</section>

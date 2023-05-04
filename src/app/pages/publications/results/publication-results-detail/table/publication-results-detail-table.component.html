@@ -1,0 +1,397 @@
+<!-- <md-progress-bar mode="indeterminate" *ngIf="isLoading === true"></md-progress-bar> -->
+<div class="md-progress-bar" *ngIf="isLoading">
+  <div class="indeterminate"></div>
+</div>
+<!-- Listado de elementos -->
+<div *ngIf="!isLoading" class="publication-results-details">
+  <!--<span><input type="checkbox" [checked]="filterWithErrors" (change)="filterErrors()" />{{ 'PUBLICATION.WITH_ERROR' | translate}}</span> -->
+  <!-- ---------Productos--------- -->
+
+  <div class="row header-modal" *ngIf="flag == 1"> 
+    
+    <div class="col-xs-3">
+      <label>{{ 'PUBLICATION.LIST_OF_PRODUCTS' | translate}} </label>
+    </div>
+
+    <div class="col-xs-9">
+        <form class="form-inline text-right">
+            <div class="form-group select-states" >
+                <label for="selectChannel">{{ 'PUBLICATION.FILTER_BY_STATE' | translate}} &nbsp; &nbsp;</label>
+                <div class="custom-select">
+                  <select class="form-control" (change)="filterByState($event.target.value)" style="width: 20rem;">
+                    <option value="0">{{ 'PUBLICATION.ALL_RESULTS' | translate}}</option>
+                    <option value="1">{{ 'PUBLICATION.FAILED_RESULTS' | translate}}</option>
+                    <option value="2">{{ 'PUBLICATION.SUCCESSFUL_RESULTS' | translate}}</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                  <label> {{ 'PUBLICATION.FILTER_BY_ALPHA' | translate}}&nbsp; &nbsp; </label>
+                  <input class="form-control" type='text' placeholder="{{ 'PUBLICATION.ALPHA' | translate }}" (keyup)='updateFilter($event, 0)' />
+              </div>
+    
+        </form>
+    </div>
+
+  </div>
+
+
+  <ngx-datatable *ngIf="flag == 1 && showAll" class="striped dark publication_results" [rows]="publicationResultsProducts"
+    [rowClass]="rowClass" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+    [limit]="15" [selected]="selected"
+    [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}"
+    (sort)="onSort($event)">
+
+
+    <ngx-datatable-column name="alphaCode" [flexGrow]="2" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.ALPHA' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="skuHermesChannel" [flexGrow]="2" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.SKU_HERMES_CHANNEL' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="idProducto" [flexGrow]="1.5" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu "> {{ 'PUBLICATION.PRODUCT_ID' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="variants" [flexGrow]="1.5" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu "> {{ 'PUBLICATION.SIZE' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <ul>
+          <li *ngFor="let val of value">
+            {{val.size}}
+          </li>
+        </ul>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="variants" [flexGrow]="1" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu "> {{ 'INVENTARIO_POPUPS.STOCK' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <ul>
+          <li *ngFor="let val of value">
+            {{val.stock}}
+          </li>
+        </ul>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="price" [flexGrow]="1" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'FILTER.DT_PRICE' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="variants" [flexGrow]="2" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu "> {{ 'PUBLICATION.SKU_HERMES_CHANNEL_VARIANTS' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <ul>
+          <li *ngFor="let val of value">
+            {{val.skuHermesChannel}}
+          </li>
+        </ul>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="error" [flexGrow]="4.5" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <!-- <input type="checkbox" [checked]="filterWithErrors" (change)="filterErrors()" /> -->
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.ERROR' | translate}}</span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span title="{{ value }}">{{ (value.length>80)? (value | slice:0:80)+'...':(value) }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+
+  </ngx-datatable>
+
+  <ngx-datatable *ngIf="flag == 1 && showWithoutErros" class="striped dark publication_results" [rows]="publicationResultsProductsOK"
+  [rowClass]="rowClass" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+  [limit]="15" [selected]="selected"
+  [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}"
+  (sort)="onSort($event)">
+
+
+  <ngx-datatable-column name="alphaCode" [flexGrow]="2" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+      <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.ALPHA' | translate}} </span>
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="skuHermesChannel" [flexGrow]="2" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+      <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.SKU_HERMES_CHANNEL' | translate}} </span>
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="idProducto" [flexGrow]="1.5" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+      <span (click)="sort()" class="context-menu "> {{ 'PUBLICATION.PRODUCT_ID' | translate}} </span>
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="variants" [flexGrow]="1.5" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+      <span (click)="sort()" class="context-menu "> {{ 'PUBLICATION.SIZE' | translate}} </span>
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <ul>
+        <li *ngFor="let val of value">
+          {{val.size}}
+        </li>
+      </ul>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="variants" [flexGrow]="1" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+      <span (click)="sort()" class="context-menu "> {{ 'INVENTARIO_POPUPS.STOCK' | translate}} </span>
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <ul>
+        <li *ngFor="let val of value">
+          {{val.stock}}
+        </li>
+      </ul>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="price" [flexGrow]="1" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+      <span (click)="sort()" class="context-menu ">{{ 'FILTER.DT_PRICE' | translate}} </span>
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{ value }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="variants" [flexGrow]="2" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+      <span (click)="sort()" class="context-menu "> {{ 'PUBLICATION.SKU_HERMES_CHANNEL_VARIANTS' | translate}} </span>
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <ul>
+        <li *ngFor="let val of value">
+          {{val.skuHermesChannel}}
+        </li>
+      </ul>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="error" [flexGrow]="4.5" [sortable]="true">
+    <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+      <!-- <input type="checkbox" [checked]="filterWithErrors" (change)="filterErrors()" /> -->
+      <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.ERROR' | translate}}</span>
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <span title="{{ value }}">{{ (value.length>80)? (value | slice:0:80)+'...':(value) }}</span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  </ngx-datatable>
+
+  <ngx-datatable *ngIf="flag == 1 && showWithErrors" class="striped dark publication_results" [rows]="publicationResultsProductsErrors"
+    [rowClass]="rowClass" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+    [limit]="15" [selected]="selected"
+    [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}"
+    (sort)="onSort($event)">
+
+
+    <ngx-datatable-column name="alphaCode" [flexGrow]="2" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.ALPHA' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="skuHermesChannel" [flexGrow]="2" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.SKU_HERMES_CHANNEL' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="idProducto" [flexGrow]="1.5" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu "> {{ 'PUBLICATION.PRODUCT_ID' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="variants" [flexGrow]="1.5" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu "> {{ 'PUBLICATION.SIZE' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <ul>
+          <li *ngFor="let val of value">
+            {{val.size}}
+          </li>
+        </ul>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="variants" [flexGrow]="1" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu "> {{ 'INVENTARIO_POPUPS.STOCK' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <ul>
+          <li *ngFor="let val of value">
+            {{val.stock}}
+          </li>
+        </ul>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="price" [flexGrow]="1" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'FILTER.DT_PRICE' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="variants" [flexGrow]="2" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu "> {{ 'PUBLICATION.SKU_HERMES_CHANNEL_VARIANTS' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <ul>
+          <li *ngFor="let val of value">
+            {{val.skuHermesChannel}}
+          </li>
+        </ul>
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="error" [flexGrow]="4.5" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <!-- <input type="checkbox" [checked]="filterWithErrors" (change)="filterErrors()" /> -->
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.ERROR' | translate}}</span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span title="{{ value }}">{{ (value.length>80)? (value | slice:0:80)+'...':(value) }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+
+  </ngx-datatable>
+
+
+  <!-- ---------Pedidos--------- -->
+
+  <div class="row" *ngIf="flag == 0">
+    <div class="col-xs-6">
+      <p>{{ 'PUBLICATION.LIST_OF_ORDERS' | translate}} </p>
+    </div>
+    <div class="col-xs-6 detail-filter">
+      <input type='text' placeholder='ID Item Channel...' (keyup)='updateFilter($event, 1)' />
+    </div>
+
+  </div>
+
+  <ngx-datatable *ngIf="flag == 0" class="striped dark publication_results" [rows]="publicationResultsProducts"
+    [rowClass]="rowClass" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+    [limit]="15" [selected]="selected"
+    [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}"
+    (sort)="onSort($event)">
+
+    <ngx-datatable-column name="orderNumberHermes" [flexGrow]="2" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.ORDER_NUMBER_HERMES' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-column name="skuHermesChannel" [flexGrow]="2" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.SKU_HERMES_CHANNEL' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="orderNumberChannel" [flexGrow]="2" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.ORDER_NUMBER_CHANNEL' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="date" [flexGrow]="2" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.DATE' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="price" [flexGrow]="1.5" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.PRICE' | translate}} </span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="error" [flexGrow]="4.5" [sortable]="true">
+      <ng-template let-column="column" ngx-datatable-header-template let-sort="sortFn" class="context-menu">
+        <!-- <input type="checkbox" [checked]="filterWithErrors" (change)="filterErrors()" /> -->
+        <span (click)="sort()" class="context-menu ">{{ 'PUBLICATION.ERROR' | translate}}</span>
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <span title="{{ value }}">{{ (value.length>80)? (value | slice:0:80)+'...':(value) }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>

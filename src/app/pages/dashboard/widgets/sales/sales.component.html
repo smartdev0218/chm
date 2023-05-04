@@ -1,0 +1,33 @@
+<div class="widget">
+    <div class="md-progress-bar" *ngIf="isLoading">
+        <div class="indeterminate"></div>
+    </div>
+    <div class="box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+        <div class="box-header with-border">
+            <h3 class="box-title font-size-14">{{ 'DASHBOARD_SALES.SALES_MADE' | translate}}</h3>
+            <div class="box-tools pull-right">
+<!--                 <button type="button" class="btn btn-box-tool pad-top-0" (click)="openConfigurationDialog()"> -->
+<!--                     <i class="fa fa-gear dashboard-action-icons"></i> -->
+<!--                 </button> -->
+
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <!-- Conversations are loaded here -->
+            <div class="direct-chat-messages pad-top-0 scrollbar right-sidebar">
+                <p class="text-right help-text">
+                
+                </p>
+
+                <div class=" no-padding">
+                    <ul class="nav nav-stacked">
+                    <li *ngFor="let sale of sales"><a class="body-font" >{{ 'DASHBOARD_SALES.SALES' | translate}} {{sale.interval.name}} <span class="pull-right badge label-green">{{sale.numSells}}</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

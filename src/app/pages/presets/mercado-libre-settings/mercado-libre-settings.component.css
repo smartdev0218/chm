@@ -1,0 +1,25 @@
+.mercado-libre-settings-form .row.disabled {
+    opacity: 0.5;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input.invalid, select.invalid {
+    border: 1px solid red;
+}
+
+label.control-label {
+    padding-top: 7px
+}
+
+input.form-control[readonly]:not([disabled]) {
+    background-color: inherit;
+}

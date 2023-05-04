@@ -1,0 +1,28 @@
+<!-- Menu Toggle Button -->
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+  <!-- The user image in the navbar-->
+  <img [src]="currentUser.avatarUrl" class="user-image" [alt]="currentUser.getName()">
+  <!-- hidden-xs hides the username on small devices so only the image appears. -->
+  <span class="hidden-xs">{{currentUser.getName()}}</span>
+</a>
+<ul class="dropdown-menu">
+  <!-- The user image in the menu -->
+<!--   <li class="user-header">
+    <img [src]="currentUser.avatarUrl" class="img-circle" [alt]="currentUser.getName()">
+    <p>
+      {{currentUser.getName()}}
+      <small>Member since {{currentUser.creationDate}}</small>
+    </p>
+  </li> -->
+
+  <!-- Menu Footer-->
+  <!-- <li class="user-footer">
+    <div class="pull-left"> -->
+      <!-- <a href="javascript:void(0);" class="btn btn-default btn-flat">Profile</a> -->
+      <!-- {{currentUser.getName()}}
+    </div>
+    <div class="pull-right">
+      <a (click)="logout()" class="btn btn-default btn-flat">{{ 'BUTTONS.SIGNOUT' | translate }}</a>
+    </div>
+  </li> -->
+</ul>

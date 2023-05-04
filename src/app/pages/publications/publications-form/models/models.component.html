@@ -1,0 +1,108 @@
+<div class="md-progress-bar" *ngIf="isLoading">
+  <div class="indeterminate"></div>
+</div>
+
+<form #modelsForm="ngForm" [formGroup]="rulesForm" *ngIf="!isLoading" class="formpublications">
+  <section>
+    <div class="color-body">
+      <!--   <div class="modal-header minimal-color">
+        <h4 class="modal-title">NEW PUBLICATION</h4>
+      </div> -->
+      <div class="modal-body">
+        <p class="titulo">{{ 'PUBLICATION.STEP_3_OF_4' | translate }}</p>
+        <hr>
+        <p> {{ 'PUBLICATION.STEP_3_DESC' | translate }}</p>
+      </div>
+
+      <!--<div class="col-md-1">
+      </div>-->
+      <div class="col-md-12 formpestanas" #container>
+        <tabset>
+          <ng-container *ngFor="let modelType of modelTypes; let i = index;">
+          <tab *ngIf="modelType.name !== 'MERCADO_LIBRE_SETTINGS' || isMercadoLibre"
+              [heading]="modelType.name === 'MERCADO_LIBRE_SETTINGS' ? ('ML_SETTINGS.NAME' | translate) : modelType.name"
+              id="{{modelType.idModelType}}"
+              [active]="modelType.idModelType == tabIdActive || (!tabIdActive && i == 0)"
+              (select)="onSelect($event, modelType.idModelType)">
+
+            <div class="tab-pane active" id="{{modelType.name}}">
+              <br>
+              <ul>
+                <li *ngFor="let model of models | myfilter:filterargs">
+                  <div [ngSwitch]="modelType.name">
+
+
+                    <input *ngSwitchCase="'PRICE'" type='radio' formControlName="price" [value]="model.modelId" />
+                    <!-- <div *ngIf="rulesForm.get('price').invalid"> 
+                        price required. 
+                     </div>	 -->
+                    <input *ngSwitchCase="'DESCRIPTION'" type='radio' formControlName="description" [value]="model.modelId" />
+
+                    <input *ngSwitchCase="'SHIPPING'" type='radio' formControlName="send" [value]="model.modelId" />
+                    <input *ngSwitchCase="'STOCK'" type='radio' formControlName="stock" [value]="model.modelId" />
+                    <input *ngSwitchCase="'ALERTA PRECIO POR EAN'" type='radio' formControlName="alertPrice" [value]="model.modelId" />
+                    <input *ngSwitchCase="'ALERTA STOCK POR EAN'" type='radio' formControlName="alertStock" [value]="model.modelId" />
+                    <input *ngSwitchCase="'ALERTA REFERENCIAS PUBLICABLES'" type='radio' formControlName="alertRef" [value]="model.modelId" />
+                    <input *ngSwitchCase="'ALERTA PRECIO MÍNIMO'" type='radio' formControlName="alertMinPrice" [value]="model.modelId" />
+                    <input *ngSwitchCase="'MERCADO_LIBRE_SETTINGS'" type='radio' formControlName="mercadoLibreSettings" [value]="model.modelId" />
+
+
+                    <label class="padiing-bw">{{model.modelName}}</label>
+                  </div>
+                  <!-- <p>{{model.modelName}}</p> -->
+                </li>
+				<!--  <div *ngIf="modelType.name == 'PRICE'">
+					<input type='radio' formControlName="price" [value]="" checked /> 
+					<label class="padiing-bw">Ningún modelo de {{modelType.name}}</label>
+				</div>
+				<div *ngIf="modelType.name == 'DESCRIPTION'">
+					<input type='radio' formControlName="description" [value]="" checked /> 
+					<label class="padiing-bw">Ningún modelo de {{modelType.name}}</label>
+				</div>
+				<div *ngIf="modelType.name == 'SHIPPING'">
+					<input type='radio' formControlName="send" [value]="" checked /> 
+					<label class="padiing-bw">Ningún modelo de {{modelType.name}}</label>
+				</div>
+				<div *ngIf="modelType.name == 'STOCK'">
+					<input type='radio' formControlName="stock" [value]="" checked/> 
+					<label class="padiing-bw">Ningún modelo de {{modelType.name}}</label>
+				</div>  -->
+
+				<br>
+                <p>
+                  <a href="javascript:void(0)" class="btn btn-outline-rounded btn-info" (click)="addModel(modelType)"
+                    class="link-dec">{{ 'PUBLICATION.CREATE_NEW_RULE' | translate }}</a>
+                </p>
+              </ul>
+            </div>
+          </tab>
+          </ng-container>
+        </tabset>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="seccionform">
+    <div class="row">
+      <div class="col-md-12 cuadrocodigo">
+        <pre *ngIf="debug === true">{{ rulesForm.value | json }}</pre>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5"></div>
+      <div class="col-md-7">
+        <button class="btn btn-danger inner" (click)="cancel()">
+          <span style="margin-right:10px;" class="glyphicon glyphicon-remove"></span> {{ 'BUTTONS.CANCEL' |
+          translate }}</button>
+        <button class="btn btn-outline-rounded " (click)="goToPrevious(modelsForm)">
+          <span style="margin-right:10px;" class="glyphicon glyphicon-arrow-left"></span> {{ 'BUTTONS.PREVIOUS' |
+          translate }}</button>
+        <button class="btn btn-outline-rounded btn-success" [disabled]="!modelsForm.valid" (click)="goToNext(modelsForm)">
+          {{ 'BUTTONS.NEXT' | translate }}
+          <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+</form>

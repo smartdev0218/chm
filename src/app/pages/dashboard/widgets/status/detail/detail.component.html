@@ -1,0 +1,9 @@
+<div class="modal-header minimal-color">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <i aria-hidden="true" class="fa fa-times"></i>
+    </button>
+    <h4 class="modal-title pull-left">{{ 'DASHBOARD_CHNL_STATUS.CHANNEL_POPUP_HEADER' | translate}} {{ channelName }}  -  {{ 'DASHBOARD_CHNL_STATUS.CHANNEL_POPUP_LAST_30_DAYS' | translate}}</h4>
+</div>
+<div class="modal-body">
+    <chm-dashboard-status-detail-table [idChannel]='idChannel'></chm-dashboard-status-detail-table>
+</div>

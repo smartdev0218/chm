@@ -1,0 +1,27 @@
+.placeholder-width{
+    width: 300px;
+   
+}
+.inner
+{
+    display: inline-block;
+}
+
+.div-bg{
+    background: #F2F2F2;
+    border-radius: 10px;
+}
+
+.addproduct-align{
+    text-align: center;
+}
+
+.margin-div{
+padding: 30px;
+}
+.margin-button{
+  margin-left: 40px !important;
+}
+.color-body{
+    color: #124f6e !important;
+}

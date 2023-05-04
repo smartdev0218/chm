@@ -1,0 +1,14 @@
+<div [ngSwitch]="status">
+    <ng-template ngSwitchCase="Online">        
+        <i class="fa fa-check-circle" title="Online"></i>
+    </ng-template>
+    <ng-template ngSwitchCase="Offline">            
+            <i class="fa fa-cancel" title="Offline"></i>
+    </ng-template>
+    <ng-template ngSwitchCase="Error">        
+        <i class="fa fa-warning" title="Online with errors"></i>
+    </ng-template>
+    <ng-template ngSwitchDefault>        
+        <i class="fa fa-help" title="Unknown status"></i>
+    </ng-template>
+</div>

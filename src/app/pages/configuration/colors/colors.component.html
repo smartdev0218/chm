@@ -1,0 +1,146 @@
+<section style="margin-bottom:10px;" *ngIf="isTabLoading || isLoading">
+  <div class="md-progress-bar">
+    <div class="indeterminate"></div>
+  </div>
+</section>
+
+<section *ngIf="!isTabLoading">
+
+  <div class="row">
+    <div class="col-md-12" *ngIf="channels.length == 0">
+      {{ 'COLORS.NO_CHANNELS_FOUND' | translate}}
+    </div>
+
+    <div class="col-md-12" *ngIf="channels.length != 0">
+      <!-- Custom Tabs -->
+      <div class="nav-tabs-custom">
+
+        <div class="form-group" style="padding: 3rem 2.5rem 0;">
+          <label for="selectChannel">{{ 'COLORS.CHANNEL_SELECT' | translate }}</label>
+          <div class="custom-select">
+            <select class="form-control" [(ngModel)] = "selectedChannel"  (change)="getChannelData(selectedChannel)">
+              <option *ngFor="let channel of channels" [ngValue]="channel">{{channel.name}}</option>
+            </select>
+          </div>
+        </div>
+
+
+        <!-- <ul class="nav nav-tabs">
+          <li class="active" *ngFor="let channel of channels.slice(0, 1)" id="tab{{channel.channelId}}link">
+            <a href="#tab_1" data-toggle="tab" aria-expanded="true" (click)="getChannelData(channel)">{{channel.name}}</a>
+          </li>
+          <li class="" *ngFor="let channel of channels.slice(1, channels.length)" id="tab{{channel.channelId}}link">
+            <a href="#tab_1" data-toggle="tab" aria-expanded="true" (click)="getChannelData(channel)">{{channel.name}}</a>
+          </li>
+        </ul> -->
+        <div class="tab-content">
+          <div class="col-md-12">
+            <div class="row" style="padding:10px;">
+              <div class="col-md-12">
+                <p style="text-align: center;" class="h4">
+                  <strong>{{ 'COLORS.HEADER1' | translate}} {{ mappedCount }}
+                    {{ 'COLORS.HEADER2' | translate}} {{ totalCount }}
+                    {{ 'COLORS.HEADER3' | translate}}
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <span class="pull-left font-size-16">
+                  <strong>{{ 'COLORS.HERMES_COLOR_HEADER' | translate}}</strong>
+                </span>
+              </div>
+              <div class="col-md-6">
+                <span class="pull-left font-size-16">
+                  <strong>{{ 'COLORS.CHANNEL_COLOR_HEADER' | translate}} {{activeChannel.name}}</strong>
+                </span>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-6">
+                <!-- <span class="pull-right"> -->
+                <input type="text" class="form-control " [(ngModel)]="queryHermesColor" id="search" placeholder="{{ 'COLORS.SEARCH_PLACEHOLDER' | translate}}">
+                <!-- </span> -->
+
+              </div>
+              <div class="col-md-6">
+                <!-- <span class="pull-right"> -->
+                <input type="text" class="form-control " [(ngModel)]="queryChannelColor" id="search" placeholder="{{ 'COLORS.SEARCH_PLACEHOLDER' | translate}}">
+                <!-- </span> -->
+              </div>
+            </div>
+            <br>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label>{{ 'COLORS.TYPE' | translate}}: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <label class="radio-inline">
+                  <input type="radio" name="hermesColorType" checked="checked" value='all' (change)="filterHermesColors($event)">{{
+                  'COLORS.ALL' | translate}}</label>
+                <label class="radio-inline">
+                  <input type="radio" name="hermesColorType" value='Mapped' (change)="filterHermesColors($event)">{{
+                  'COLORS.MAPPED' | translate}}</label>
+                <label class="radio-inline">
+                  <input type="radio" name="hermesColorType" value='Not Mapped' (change)="filterHermesColors($event)">{{
+                  'COLORS.NOT_MAPPED' | translate}}</label>
+              </div>
+              <div class="col-md-6">
+                <label>{{ 'COLORS.TYPE' | translate}}: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <label class="radio-inline">
+                  <input type="radio" name="channelColorType" checked="checked" value='all' (change)="filterChannelColors($event)">{{
+                  'COLORS.ALL' | translate}}</label>
+                <label class="radio-inline">
+                  <input type="radio" name="channelColorType" value='Mapped' (change)="filterChannelColors($event)">{{
+                  'COLORS.MAPPED' | translate}}</label>
+                <label class="radio-inline">
+                  <input type="radio" name="channelColorType" value='Not Mapped' (change)="filterChannelColors($event)">{{
+                  'COLORS.NOT_MAPPED' | translate}}</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <!-- Hermes Color -->
+              <div class="col-md-6" *ngIf="hermesColorsWithStatus.length != 0">
+                <div class="categorias-parent-div right-sidebar">
+                  <div class="" *ngFor="let hermesColor of hermesColorsWithStatus | searchfilter: queryHermesColor">
+                    <span [style.color]="hermesColor.isMapped ? '#aba1a1' : ''">
+                      <div dnd-draggable [dragEnabled]="!hermesColor.isMapped" [dragData]="hermesColor" class="devBotonCat parent-category-site">
+                        <i [class]="hermesColor.isMapped ? 'fa fa-ban' : 'fa fa-arrows-alt'"></i> &nbsp;&nbsp;&nbsp;
+                        {{hermesColor.name}}
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <!-- Channel Colors With Childrens -->
+              <div class="col-md-6" *ngIf="channelColorsWithChildrens.length != 0">
+                <div class="categorias-canals right-sidebar">
+                  <div *ngFor="let item of channelColorsWithChildrens | searchfilter: queryChannelColor">
+
+                    <div dnd-droppable (onDropSuccess)="addMapping($event, item)" class=" parent-category-canal">
+                      <div>
+                        &nbsp;&nbsp;&nbsp; {{item.name}}
+                      </div>
+                    </div>
+                    <div class="categorias-div-canals">
+                      <label class=" hijo canal-sub-categories" *ngFor="let subitem of item.children" style="width: 100%">
+                        {{subitem.name}}&nbsp;&nbsp;&nbsp;
+                        <a href="javascript:void(0)" (click)="removeMapping(item,subitem)" style="color: red;">&#10006;</a>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Custom Tabs End -->
+    </div>
+  </div>
+
+
+</section>

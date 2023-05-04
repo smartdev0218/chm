@@ -1,0 +1,172 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "../node_modules/font-awesome/css/font-awesome.css";
+/*
+@import "../node_modules/admin-lte/dist/css/AdminLTE.css";
+@import "../node_modules/admin-lte/dist/css/skins/skin-black.css"; 
+*/
+
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/dark.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
+@import "assets/css/AdminLTE.min.css";
+@import "assets/css/skin-blue-light.css";
+
+@import "../node_modules/ionicons/dist/css/ionicons.css";
+@import "../node_modules/angular2-toaster/toaster.css";
+@import "assets/css/moddo-master.css";
+
+
+.widget {
+    position: relative;
+}
+
+.widget div.md-progress-bar {
+    position: absolute;
+    z-index: 99;
+}
+
+.md-progress-bar {
+    position: relative;
+    height: 5px;
+    display: block;
+    width: 100%;
+    background-color: #03a9f4;
+    overflow: hidden
+}
+.md-progress-bar .determinate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #26a69a;
+    -webkit-transition: width .3s linear;
+    transition: width .3s linear
+}
+.md-progress-bar .indeterminate {
+    background-color: #e7eef1;
+}
+.md-progress-bar .indeterminate:before {
+    content: '';
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+    animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite
+}
+.md-progress-bar .indeterminate:after {
+    content: '';
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    -webkit-animation-delay: 1.15s;
+    animation-delay: 1.15s
+}
+@-webkit-keyframes indeterminate {
+    0% {
+        left: -35%;
+        right: 100%
+    }
+    60% {
+        left: 100%;
+        right: -90%
+    }
+    100% {
+        left: 100%;
+        right: -90%
+    }
+}
+@keyframes indeterminate {
+    0% {
+        left: -35%;
+        right: 100%
+    }
+    60% {
+        left: 100%;
+        right: -90%
+    }
+    100% {
+        left: 100%;
+        right: -90%
+    }
+}
+@-webkit-keyframes indeterminate-short {
+    0% {
+        left: -200%;
+        right: 100%
+    }
+    60% {
+        left: 107%;
+        right: -8%
+    }
+    100% {
+        left: 107%;
+        right: -8%
+    }
+}
+@keyframes indeterminate-short {
+    0% {
+        left: -200%;
+        right: 100%
+    }
+    60% {
+        left: 107%;
+        right: -8%
+    }
+    100% {
+        left: 107%;
+        right: -8%
+    }
+}
+ 
+.modal-lg:not(.modal-lg-bs) {
+    width: 90%;
+}
+
+.modal-lg.modal-lg-bs {
+    width: 900px;
+}
+
+.modal-lg:not(.modal-lg-bs)  .modal-body {
+    overflow-y: scroll;
+}
+
+.parpadea {
+  
+  animation-name: parpadeo;
+  animation-duration: 4s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name:parpadeo;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes parpadeo{  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.35; }
+  100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {  
+  0% { opacity: 1.0; }
+  50% { opacity: 0.35; }
+   100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {  
+  0% { opacity: 1.0; }
+   50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}

@@ -1,0 +1,97 @@
+<div class="modal-header minimal-color">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="onCancel()">
+        <i aria-hidden="true" class="fa fa-times"></i>
+    </button>
+    <h4 class="modal-title pull-left">{{ 'DASHBOARD_SALES.SALES_POPUP_HEADER' | translate }}</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-4" align="right"><label for="sel1">{{ 'DASHBOARD_SALES.PRIMARY_SELECT' | translate }}</label> </div>
+        <div class="col-md-8">
+            <div class="custom-select">
+            <select class="" [(ngModel)]="primarySelectedInterval" style="width:200px;">
+                <option *ngFor="let interval of intervals" [value]="interval"> {{ interval.name }} </option>
+            </select>
+            </div>
+       </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4" align="right"><label for="sel1">{{ 'DASHBOARD_SALES.SECONDARY_SELECT' | translate }}</label></div>
+        <div class="col-md-8">
+            <div class="custom-select">
+            <select class="form-control" [(ngModel)]="secondarySelectedInterval" style="width:200px;">
+                <option *ngFor="let interval of intervals" [value]="interval"> {{ interval.name }} </option>
+            </select>
+            </div>
+       </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4" align="right"> <label for="sel1">{{ 'DASHBOARD_SALES.TERTIARY_SELECT' | translate }}</label></div>
+        <div class="col-md-8">
+          <div class="custom-select">
+            <select class="form-control" [(ngModel)]="tertiarySelectedInterval" style="width:200px;">
+                <option *ngFor="let interval of intervals" [value]="interval"> {{ interval.name }} </option>
+            </select>
+          </div>
+       </div>
+    </div>
+    <br>
+</div>
+<div class="modal-footer">
+    <div class="text-right">
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()">
+            {{ 'BUTTONS.SUBMIT' | translate }}
+        </button>
+        <button type="button" class="btn btn-danger" (click)="onCancel()">
+            {{ 'BUTTONS.CANCEL' | translate }}
+        </button>
+    </div>
+</div>
+
+
+<!-- 
+<section md-dialog-title class="header">
+    <h4>Configuración de widget ventas</h4>
+    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+</section>
+<md-dialog-content>
+
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell-6-col">Primary Select</div>
+        <div class="mdl-cell mdl-cell-6-col">
+            <md-select placeholder="Primary..." floatPlaceholder="never" [(ngModel)]="primarySelectedInterval">
+                <md-option *ngFor="let interval of intervals" [value]="interval"> {{ interval.name }} </md-option>
+            </md-select>
+        </div>
+    </div>
+
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell-6-col">Secondary Select</div>
+        <div class="mdl-cell mdl-cell-6-col">
+            <md-select placeholder="Secondary..." floatPlaceholder="never" [(ngModel)]="secondarySelectedInterval">
+                <md-option *ngFor="let interval of intervals" [value]="interval">
+                    {{ interval.name }}
+                </md-option>
+            </md-select>
+        </div>
+    </div>
+
+
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell-6-col">Tertiary Select</div>
+        <div class="mdl-cell mdl-cell-6-col">
+            <md-select placeholder="Tertiary..." floatPlaceholder="never" [(ngModel)]="tertiarySelectedInterval">
+                <md-option *ngFor="let interval of intervals" [value]="interval">
+                    {{ interval.name }}
+                </md-option>
+            </md-select>
+        </div>
+    </div>
+
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-button (click)="onSubmit()">Submit</button>
+    <button md-button (click)="onCancel()">Cancel</button>
+</md-dialog-actions> -->

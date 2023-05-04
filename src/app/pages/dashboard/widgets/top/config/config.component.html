@@ -1,0 +1,43 @@
+<div class="modal-header minimal-color">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="onCancel()">
+        <i aria-hidden="true" class="fa fa-times"></i>
+    </button>
+    <h4 class="modal-title pull-left">{{ 'DASHBOARD_TOP.TOP_POPUP_HEADER' | translate }}</h4>
+</div>
+<div class="modal-body">
+<div class="custom-select">
+    <select class="form-control" [(ngModel)]="selectedIntervalId" style="width:200px;">
+        <option *ngFor="let interval of intervals" [value]="interval.id">
+            {{ interval.name }}
+        </option>
+    </select>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="text-right">
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()">
+            {{ 'BUTTONS.SUBMIT' | translate }}
+        </button>
+        <button type="button" class="btn btn-danger" (click)="onCancel()">
+            {{'BUTTONS.CANCEL' | translate }}
+        </button>
+    </div>
+</div>
+
+
+<!-- 
+<section md-dialog-title class="header">
+    <h4>Configuración de widget top ventas</h4>
+    <md-progress-bar mode="indeterminate" *ngIf="isLoading"></md-progress-bar>
+</section>
+<md-dialog-content>
+    <md-select placeholder="Cargando..." floatPlaceholder="never" [(ngModel)]="selectedIntervalId">
+        <md-option *ngFor="let interval of intervals" [value]="interval.id">
+            {{ interval.name }}
+        </md-option>
+    </md-select>
+</md-dialog-content>
+<md-dialog-actions>
+    <button md-button (click)="dialogRef.close(selectedIntervalId)">Submit</button>
+    <button md-button (click)="dialogRef.close(false)">Cancel</button>
+</md-dialog-actions> -->

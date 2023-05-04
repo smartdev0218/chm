@@ -1,0 +1,55 @@
+<div class="login-box">	
+	<div class="login-logo">
+		<!-- <img src="/moddo-logo.jpg" /> -->
+		<b>MODDO</b> <br /> Gestor de canales
+	</div>
+	<!-- /.login-logo -->
+	<div class="md-progress-bar" *ngIf="isLoading">
+		<div class="indeterminate"></div>
+	</div>
+	<div class="login-box-body">
+
+
+		<p class="login-box-msg">{{ 'LOGIN_PAGE.SIGNIN' | translate }}</p>		
+		<form>
+			<div class="form-group has-feedback">
+				<input [(ngModel)]="username" name="username" type="text" class="form-control" placeholder="{{ 'LOGIN_PAGE.USERNAME' | translate }}">
+				<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			</div>
+			<div class="form-group has-feedback">
+				<input [(ngModel)]="passwd" name="passwd" type="password" class="form-control" placeholder="{{ 'LOGIN_PAGE.PASSWORD' | translate }}">
+				<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			</div>
+			<div class="row">
+				<div class="col-xs-8">
+				</div>
+				<!-- /.col -->
+				<div class="col-xs-4">
+				      <button type="submit" class="btn btn-primary btn-block btn-flat" (click)="login()" >{{ 'LOGIN_PAGE.LOGIN' | translate }}</button>					
+				</div>
+				<!-- /.col -->
+			</div>
+		</form>
+	</div>
+	<!-- /.login-box-body -->
+</div>
+
+<!-- 
+<main>
+    <section class="header">
+        <img src="/chm/assets/images/login-logo.jpg" alt="MODDO Logo"/>
+        <h2>Gestor de canales</h2>
+    </section>
+    <section class="login-form">
+        <md-input-container>
+            <input mdInput placeholder="Username" [(ngModel)]="username">
+        </md-input-container>
+        <br>
+        <md-input-container>
+            <input mdInput placeholder="Password" type="password" [(ngModel)]="passwd">
+        </md-input-container>
+        <footer>
+            <button md-raised-button (click)="login()">Entrar</button>
+        </footer>
+    </section>
+</main> -->

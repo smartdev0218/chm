@@ -1,0 +1,457 @@
+<!-- <section> -->
+<div class="" role="dialog">
+  <div>
+    <div class="md-progress-bar" *ngIf="isLoading">
+      <div class="indeterminate"></div>
+    </div>
+    <!--   <div class="modal-header minimal-color">
+        <h4 class="modal-title">Catalog Products</h4>
+      </div> -->
+    <div>
+      <div class="modal-body" *ngIf="!isLoading">
+
+        <div class="initial-container-height">
+          <div class="row filter-container-row">
+
+            <div class="barrafiltros">
+              <!--R: nuevo div-->
+              <div class="bt_mostrarfiltros" (click)="mostrarfiltros()">{{ 'FILTER.FILTERS' | translate }}
+                &nbsp;&nbsp;&nbsp;<i _ngcontent-c21="" class="fa fa-filter"></i></div>
+
+              <div *ngIf="selectedFiltersError.length>0" style="display: inline-block;">
+                <strong>&nbsp;{{ 'FILTER.CHANNELS_ERROR_TITLE' | translate }} :</strong>
+                <div class="filtro_seleccionado" *ngFor="let filter of selectedFiltersError">
+                  - {{filter.name}}
+                </div>
+              </div>
+
+              <div *ngIf="selectedFilterActive.length>0" style="display: inline-block;">
+                <strong>&nbsp;{{ 'FILTER.ACTIVE_PRODUCTS' | translate }} :</strong>
+                <div class="filtro_seleccionado" *ngFor="let filter of selectedFilterActive">
+                  - {{filter.name}}
+                </div>
+              </div>
+
+
+              <div *ngIf="selectedFiltersCategories.length>0" style="display: inline-block;">
+                <strong>&nbsp;{{ 'FILTER.CATEGORIES' | translate }} :</strong>
+                <div class="filtro_seleccionado" *ngFor="let filter of selectedFiltersCategories">
+                  - {{filter.name}}
+                </div>
+              </div>
+
+              <div *ngIf="selectedFiltersRotulos.length>0" style="display: inline-block;">
+                <strong>&nbsp;{{ 'FILTER.ROTULOS' | translate }} :</strong>
+                <div class="filtro_seleccionado" *ngFor="let filter of selectedFiltersRotulos">
+                  - {{filter.name}}
+                </div>
+              </div>
+
+              <div *ngIf="selectedFiltersStations.length>0" style="display: inline-block;">
+                <strong>&nbsp;{{ 'FILTER.STATIONS' | translate }} :</strong>
+                <div class="filtro_seleccionado" *ngFor="let filter of selectedFiltersStations">
+                  - {{filter.name}}
+                </div>
+              </div>
+
+              <div *ngIf="selectedFiltersBrands.length>0" style="display: inline-block;">
+                <strong>&nbsp;{{ 'FILTER.BRANDS' | translate }} :</strong>
+                <div class="filtro_seleccionado" *ngFor="let filter of selectedFiltersBrands">
+                  - {{filter.name}}
+                </div>
+              </div>
+
+              <div *ngIf="selectedFiltersChannelNotIn.length>0" style="display: inline-block;">
+                <strong>&nbsp;{{ 'FILTER.CHANNELS_NOT' | translate }} :</strong>
+                <div class="filtro_seleccionado" *ngFor="let filter of selectedFiltersChannelNotIn">
+                  - {{filter.name}}
+                </div>
+              </div>
+
+              <div *ngIf="selectedFiltersChannelIn.length>0" style="display: inline-block;">
+                <strong>&nbsp;{{ 'FILTER.CHANNELS' | translate }} :</strong>
+                <div class="filtro_seleccionado" *ngFor="let filter of selectedFiltersChannelIn">
+                  - {{filter.name}}
+                </div>
+              </div>
+
+
+              <a (click)="ngOnInit()" class="bt_borrarfiltros"><i
+                  class="fa fa-times"></i>&nbsp;&nbsp;{{ 'FILTER.DELETE_FILTERS' | translate }}</a>
+            </div>
+
+            <div class="col-md-3 col-lg-2 filter-input-container right-sidebar scrollbar">
+              <div class="row filter-title">
+                <div class="col-md-12 bold bt_cerrarfiltros" (click)="cerrarfiltros()">{{ 'FILTER.FILTERS' | translate
+                  }}
+                  <span class="pull-right">
+                    <i class="fa fa-angle-up"></i>
+                  </span>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-12">
+                  <input #search class="margin-input" type="text" class="form-control" (keyup)='updateFilter($event)' placeholder="{{ 'FILTER.PLACEHOLDER_TEXT' |
+                  translate }}"/>
+                </div>
+              </div>
+              <br>
+              <form [formGroup]="filterForm" novalidate>
+                <div class="row  filter-border" id="publishedDiv">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('publishedDiv')">{{ 'FILTER.TEXT' |
+                    translate }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar">
+                    <br>
+                    <!--<div class="col-md-12">
+                          <div class="col-md-6">{{ 'FILTER.ALPHA' | translate }}</div>
+                          <div class="col-md-6 pad-left-0">
+                            <input type="string" class="form-control" formControlName="alpha"> </div>
+                        </div>
+                        <br>-->
+                    <!--<div class="col-md-12">
+                          <div class="col-md-6">{{ 'FILTER.EAN' | translate }}</div>
+                          <div class="col-md-6 pad-left-0">
+                            <input type="string" class="form-control" formControlName="ean" > </div>
+                        </div>
+                        <br>-->
+                    <div class="col-md-12">
+                      <div class="col-md-6">{{ 'FILTER.REF_EAN_SKU' | translate }}</div>
+                      <div class="col-md-6 pad-left-0">
+                        <textarea class="form-control" id="alphaOrEanOrSku" name="alphaOrEanOrSku" type="text"
+                          formControlName="alphaOrEanOrSku" style="resize:none;"
+                          (input)="onAlphaOrEanOrSkuChange($event.target.value)"
+                          (focusout)="onAlphaOrEanOrSkuFocusOut()" #change></textarea> </div>
+                    </div>
+                    <br>
+                    <div class="col-md-12">
+                      <div class="col-md-6">{{ 'FILTER.DESCRIPTION' | translate }}</div>
+                      <div class="col-md-6 pad-left-0">
+                        <input type="string" class="form-control" formControlName="description"> </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row  filter-border" id="channelNotDiv">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('channelNotDiv')">{{
+                    'FILTER.CHANNELS_ERROR_TITLE' | translate }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar">
+                    <div class="col-md-12">
+                      <input type="checkbox" class="check-filter" (change)="modifyList({name: 'Error'}, 'error', 0)"
+                        formControlName="channelsAnyError" /><span>{{
+                        'FILTER.CHANNELS_ERROR' |
+                        translate }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+                <div class="row filter-border" id="channelDiv">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('channelDiv')">{{ 'FILTER.CHANNELS' |
+                    translate }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                    <div class="col-md-12">
+                      <input type="checkbox" class="check-filter" (change)="checkboxAtLeastOneChannelChanged($event)"
+                        formControlName="channelsAtLeastOne" /><span>
+                        {{ 'FILTER.AT_LEAST_ONE_CHANNEL' | translate }} </span>
+                    </div>
+                    <div formArrayName="channels">
+                      <div class="col-md-12" *ngFor="let channel of channelsAll; let i=index" [formGroupName]="i">
+                        <input type="checkbox" class="check-filter"
+                          (change)="checkboxChannelChanged($event, channel, 'channelIn', i)" class="checkbox-channels"
+                          formControlName="{{channel.channelId}}" /><span> {{channel.name}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row filter-border" id="channelNotDiv2">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('channelNotDiv2')">{{ 'FILTER.CHANNELS_NOT'
+                    | translate }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                    <div class="col-md-12">
+                      <input type="checkbox" class="check-filter" (change)="checkboxAnyChanged($event)"
+                        formControlName="channelsAny" /><span>{{
+                        'FILTER.ANY_CHANNEL' | translate }}</span>
+                    </div>
+                    <div formArrayName="channelsNot">
+                      <div class="col-md-12" *ngFor="let channel of channelsAllNot; let i=index" [formGroupName]="i">
+                        <input type="checkbox" class="check-filter"
+                          (change)="checkboxChannelNotChanged($event,channel,'channelNotIn', i)"
+                          formControlName="{{channel.channelId}}" /><span>
+                          {{channel.name}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row filter-border" id="catalogDiv">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('catalogDiv')">{{ 'FILTER.CATEGORIES' |
+                    translate }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                    <div formArrayName="catalogs">
+
+                      <div class="col-md-12">
+                        <input type="checkbox" class="check-filter" (change)="checkboxAllCatalogs($event)" />
+                        <span>{{ 'FILTER.SELECT_ALL' | translate }} </span>
+                      </div>
+
+                      <div class="col-md-12" *ngFor="let catalog of catalogsAll; let i=index" [formGroupName]="i">
+                        <input type="checkbox" class="check-filter" (change)="modifyList(catalog, 'category', i)"
+                          formControlName="{{catalog.id}}" /><span>
+                          {{catalog.name}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row filter-border" id="brandDiv">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('brandDiv')">{{ 'FILTER.BRANDS' | translate
+                    }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                    <div formArrayName="brands">
+
+                      <div class="col-md-12">
+                          <input type="checkbox" class="check-filter" (change)="checkboxAllBrands($event)"/><span>
+                          {{ 'FILTER.SELECT_ALL' | translate }} </span>
+                      </div>
+
+
+                      <div class="col-md-12" *ngFor="let brand of brandsAll; let i=index" [formGroupName]="i">
+                        <input type="checkbox" class="check-filter" (change)="modifyList(brand, 'brand', i)"
+                          formControlName="{{brand.name}}"><span>
+                          {{brand.name}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row filter-border" id="priceDiv">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('priceDiv')">{{ 'FILTER.PRICE' | translate
+                    }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                    <div class="col-md-12">
+                      <br>
+                      <div class="col-md-6"> {{ 'FILTER.MIN' | translate }} </div>
+                      <div class="col-md-6 pad-left-0">
+                        <input type="number" class="form-control" formControlName="priceMin"> </div>
+                    </div>
+                    <br>
+                    <div class="col-md-12">
+                      <div class="col-md-6"> {{ 'FILTER.MAX' | translate }} </div>
+                      <div class="col-md-6 pad-left-0">
+                        <input type="number" class="form-control" formControlName="priceMax"> </div>
+                    </div>
+                    <br>
+                  </div>
+                </div>
+                <br>
+
+                 <div class="row filter-border" id="priceFee">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('priceFee')">{{ 'FILTER.FEE' | translate
+                    }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                    <div class="col-md-12">
+                      <div class="col-md-6"> {{ 'FILTER.MIN' | translate }} </div>
+                      <div class="col-md-6 pad-left-0">
+                        <input type="number" class="form-control" formControlName="priceMinFee"> </div>
+                    </div>
+                    <br>
+                    <div class="col-md-12">
+                      <div class="col-md-6"> {{ 'FILTER.MAX' | translate }} </div>
+                      <div class="col-md-6 pad-left-0">
+                        <input type="number" class="form-control" formControlName="priceMaxFee"> </div>
+                    </div>
+                    <br>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row filter-border" id="stationDiv">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('stationDiv')">{{ 'FILTER.STATIONS' |
+                    translate }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                    <div formArrayName="stations">
+                      <div class="col-md-12" *ngFor="let station of stationsAll; let i=index" [formGroupName]="i">
+                        <input type="checkbox" class="check-filter" (change)="modifyList(station, 'station', i)"
+                          formControlName="{{station.id}}" /><span>
+                          {{station.name}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row filter-border" id="rotuloDiv">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('rotuloDiv')">{{ 'FILTER.ROTULOS' |
+                    translate }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                    <div formArrayName="rotulos">
+                      <div class="col-md-12" *ngFor="let rotulo of rotulosAll; let i=index" [formGroupName]="i">
+                        <input type="checkbox" class="check-filter" (change)="modifyList(rotulo, 'rotulo', i)"
+                          formControlName="{{rotulo.id}}" /><span>
+                          {{rotulo.name}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row  filter-border" id="activeDiv">
+                  <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('activeDiv')">
+                    {{'FILTER.ACTIVE_PRODUCTS' | translate }}</div>
+                  <div class="col-md-12 filter-scroll right-sidebar">
+                    <div class="col-md-12">
+                      <input type="checkbox" class="check-filter" (change)="modifyList({name: 'Active'}, 'active', 0)"
+                        formControlName="activeProducts" />
+                      <span>{{'FILTER.ACTIVE' | translate }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+
+
+
+                <!--<div class="row" id="stockDiv">
+                    <div class="col-md-12 bold">{{ 'FILTER.STOCK' | translate }}</div>
+                    <div class="col-md-12">
+                      <div class="col-md-3">{{ 'FILTER.MIN' | translate }}</div>
+                      <div class="col-md-9 pad-left-0">
+                        <input type="number " class="form-control" formControlName="stockMin">
+                      </div>
+                    </div>
+                  </div>-->
+                <div class="row">
+                  <div class="col-md-12">
+                    <button (click)="refresh()" class="form-control btn-primary">
+                      {{ 'FILTER.APPLY' | translate }}</button>
+                  </div>
+                </div>
+                <br>
+              </form>
+            </div>
+
+            <!-- end form filter -->
+
+            <div class="col-md-12 filter-mid-border-line">
+
+              <div class="">
+                <ngx-datatable id="inventory-datatable" #table class="dark striped datatable-scroll-i scrollbar"
+                  [rows]="products" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                  [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size"
+                  (page)='setPage($event)'
+                  [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}">
+                  <ngx-datatable-column name="imageThumbnail">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'FILTER.IMAGE' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                      <img (click)="goProductDetailForm(row)" class="pointer-cursor" [src]="value"
+                        onError="this.src='assets/img/V.jpg'"
+                        style="width:50px;height:50px; border: 1px solid #f2f2f2;">
+                    </ng-template>
+                  </ngx-datatable-column>
+
+
+                  <ngx-datatable-column name="description" [flexGrow]="2">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'FILTER.DESCRIPTION' | translate }}
+                    </ng-template>
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <span title="{{value}}">{{ (value.length>30)? (value | slice:0:30)+'...':(value) }}</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="brand" [flexGrow]="1">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'FILTER.MARCA' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{value}}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="codigoAlfa" [flexGrow]="1.5">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'FILTER.REF' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                      <span class="pointer-cursor text-decoration" (click)="goProductDetailForm(row)">{{value}}</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="price" [flexGrow]="1">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'FILTER.DT_PRICE' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{value}}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="stock" [flexGrow]="1">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'INVENTARIO_POPUPS.STOCK' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{value}}
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="publishIn" [flexGrow]="2">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'FILTER.DT_CHANNELS' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      <div *ngFor="let publish of value;">
+                        <img src="{{ publish.channel.imageThumbnailCuadrado}}" class="channel-image">
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+              <br>
+
+
+
+            </div>
+            <!-- end table filter -->
+            <br>
+            <br>
+          </div>
+
+          <div class="row">
+            <div class="text-right export-bottons">
+              <p class="export-text"><b>{{ 'COMMON_WORDS.EXPORTS' | translate }}</b></p>
+              <a href="javascript:void(0)"><i class="fa fa-file-excel-o  icons-size skin-blue-secondary"
+                  (click)="export(1)" title="XLSX"></i></a> |
+              <a href="javascript:void(0)"><i class="fa fa-file-pdf-o  icons-size skin-blue-secondary"
+                  (click)="export(2)" title="PDF"></i></a> |
+              <a href="javascript:void(0)"><i class="fa fa-table  icons-size skin-blue-secondary" (click)="export(3)"
+                  title="CSV"></i></a>
+
+            </div>
+          </div>
+
+
+          <div class='selected-column'>
+            <h4>
+
+            </h4>
+            <ul>
+
+
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

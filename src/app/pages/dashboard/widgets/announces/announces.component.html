@@ -1,0 +1,60 @@
+<div class="widget">
+    <div class="md-progress-bar" *ngIf="isLoading">
+        <div class="indeterminate"></div>
+    </div>
+    <div class="box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+        <div class="box-header with-border">
+            <h3 class="box-title font-size-14">
+                {{ 'DASHBOARD_ANNOUNCEMENTS.ANNOUNCEMENTS' | translate }}
+            </h3>
+            <div class="box-tools pull-right">
+                <!--  <button type="button" class="btn btn-box-tool pad-top-0" (click)="openDetailDialog()">
+                    <i class="fa fa-plus dashboard-action-icons"></i>
+                </button>-->
+
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <!-- Conversations are loaded here -->
+            <div class="direct-chat-messages pad-top-0 scrollbar right-sidebar">
+                  <p class="text-right help-text">
+
+                  </p>
+                <div class="row pad-5A" *ngFor="let announce of announces">
+                    <div class="col-md-1" style="text-align: right; margin-top: 5px;"><i class="fa  fa-file-text-o"></i></div>
+                    <div class="col-md-10">
+                        <span style="font-size: smaller; font-style: italic;">{{announce.date}}</span>
+                        <br/>
+                        <span style="font-weight: bold; font-size: larger;">{{announce.tittle}}</span> 
+                        <br/>
+                        {{announce.message}} 
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- <md-card>
+    <md-card-header>
+        <md-card-title-group style=" width: 100%;">
+            <md-card-title class="dashboard-widget-title">Anuncios</md-card-title>
+            <button md-icon-button class="align-right" (click)="openDetailDialog()">
+                <md-icon>add</md-icon>
+            </button>
+            <md-card-subtitle>&nbsp;</md-card-subtitle>
+        </md-card-title-group>
+    </md-card-header>
+
+    <md-card-content [ngStyle]="announces.length<=4 && {'overflow-y': 'hidden'}" style="height: 220px; overflow-x: hidden;">
+        <md-list>
+            <md-list-item *ngFor="let announce of announces">
+                <md-icon md-list-avatar>announcement</md-icon>
+                <h4 md-line>{{announce.message}}</h4>
+            </md-list-item>
+        </md-list>
+    </md-card-content>
+</md-card> -->

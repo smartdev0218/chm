@@ -1,0 +1,37 @@
+<div class="widget">
+    <div class="md-progress-bar" *ngIf="isLoading">
+        <div class="indeterminate"></div>
+    </div>
+    <div class="box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+        <div class="box-header with-border">
+            <h3 class="box-title font-size-14">{{ 'DASHBOARD_TOP.TOP' | translate }}</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool pad-top-0" (click)="openConfigurationDialog()">
+                    <i class="fa fa-gear dashboard-action-icons"></i>
+                </button>
+            </div>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <!-- Conversations are loaded here -->
+            <div class="direct-chat-messages pad-top-0 scrollbar right-sidebar">
+                <p class="text-right help-text">
+                    {{ selectedInterval? selectedInterval.name : '&nbsp;'}}
+                </p>
+
+                <span *ngIf="topSells.length < 1">{{ 'DATATABLE.EMPTY_MESSAGE' | translate }}</span>
+
+                <div class="progress-group" *ngFor="let topSell of topSells">
+                    <span class="progress-text">{{topSell.channelName}}</span>
+                    <span class="progress-number">{{topSell.numSells}}</span>
+
+                    <div class="progress sm">
+                        <div class="progress-bar progress-bar-purple" [style.width]="((topSell.numSells/maxNumSells)*100).toFixed(2) + '%'"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

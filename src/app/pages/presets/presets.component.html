@@ -1,0 +1,81 @@
+<div class="md-progress-bar" *ngIf="isLoading">
+  <div class="indeterminate"></div>
+</div>
+<div *ngIf="!isLoading">
+  <h3></h3>
+  <div class="row" style="padding-top:10px;">
+    <div class="col-md-1"></div>
+    <div class="col-md-10" align="right" >
+      <a class="btn btn-primary" (click)="goCreateForm()">
+        <!-- <i class="fa fa-plus"></i> -->
+        {{ 'PRESETS.ADD_PRESET' | translate}}
+      </a>
+    </div>
+    <div class="col-md-1"></div>
+    <br>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+      <div>
+        <ngx-datatable class="dark striped" [rows]="models" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+          [limit]="5" [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}">
+
+          <ngx-datatable-column name="modelName" [flexGrow]="2">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              {{ 'PRESETS.PRESET_NAME' | translate }}
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="channelName" [flexGrow]="1">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              {{ 'PRESETS.CHANNEL' | translate }}
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="modelTypeName" [flexGrow]="2">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              {{ 'PRESETS.PRESET_TYPE' | translate }}
+            </ng-template>
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{value}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="name" [flexGrow]="1">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              {{ 'PRESETS.ACTION' | translate }}
+            </ng-template>
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <div>
+                <span>
+                  <a (click)="goEditForm(row)" style="cursor:pointer;">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                </span>
+                |
+                <span>
+                  <a (click)="deleteModel(row)" style="cursor:pointer;">
+                    <i class="fa fa-trash"></i>
+                  </a>
+                </span>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+
+
+
+</div>

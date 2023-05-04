@@ -1,0 +1,104 @@
+<div class="modal-header minimal-color">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeMe()">
+        <i aria-hidden="true" class="fa fa-times"></i>
+    </button>
+    <h4 class="modal-title pull-left">{{ 'MESSENGER.REPLY' | translate}}</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="control-label">{{'PRESETS.CHANNEL' | translate}}</label>
+                <img class="messenger-channel-image" [src]="channel.imageThumbnail" [alt]="channel.name"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">{{'MESSENGER.RELATION' | translate}}</label>
+                <p class="form-control-static">
+                    {{(message.messageType === 'QUESTION' ? 'MESSENGER.PRODUCT' : 'MESSENGER.ORDER') | translate}}
+                    {{message.itemId}}
+                </p>
+            </div>
+            <div *ngIf="message.fromName" class="form-group">
+                <label class="control-label">{{'MESSENGER.CUSTOMER' | translate}}</label>
+                <p class="form-control-static">{{message.fromName}}</p>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <label>{{'MESSENGER.PREDEFINED_ANSWERS' | translate}}</label>
+            <div class="pull-right">
+                <a class="predefined-answer-action" (click)="addNewPredefinedAnswer()" *ngIf="!insertNewPredefinedAnswer"><em class="fa fa-plus"></em></a>
+                <a class="predefined-answer-action" (click)="closeNewPredefinedAnswer()" *ngIf="insertNewPredefinedAnswer"><em class="fa fa-close"></em></a>
+                <a class="predefined-answer-action" (click)="removePredefinedAnswer()" [class.disabled]="!selectedPredefinedAnswers"><em class="fa fa-minus"></em></a>
+            </div>
+            <div *ngIf="insertNewPredefinedAnswer" class="input-group predefined-answer-insertion">
+                <input type="text" class="form-control" [(ngModel)]="newPredefinedAnswer"
+                    [disabled]="isSavingPredefinedAnswer"
+                    placeholder="{{'MESSENGER.WRITE_PREDEFINED_ANSWER' | translate}}" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" (click)="saveNewPredefinedAnswer()"
+                        [disabled]="!newPredefinedAnswer || isSavingPredefinedAnswer">
+                        <em *ngIf="!isSavingPredefinedAnswer" class="fa fa-sign-in fa-rotate-90"></em>
+                        <em *ngIf="isSavingPredefinedAnswer" class="fa fa-spinner"></em>
+                    </button>
+                </span>
+            </div>
+            <div class="predefined-answers-container">
+                <div class="md-progress-bar" *ngIf="isLoadingPredefinedAnswers">
+                    <div class="indeterminate"></div>
+                </div>
+                <div *ngIf="!isLoadingPredefinedAnswers && predefinedAnswers.length == 0" class="predefined-answer-empty">
+                    {{'MESSENGER.NO_PREDEFINED_ANSWERS' | translate}}
+                </div>
+                <ul *ngIf="!isLoadingPredefinedAnswers">
+                    <li *ngFor="let predefinedAnswer of predefinedAnswers">
+                        <label>
+                            <input type="radio" name="predefined_answer" (click)="setAnswer(predefinedAnswer)"/>
+                            {{predefinedAnswer.text}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div *ngIf="message.messageType == 'QUESTION'" class="form-group">
+                <label class="control-label">{{'MESSENGER.MESSAGE' | translate}}</label>
+                <p class="form-control-static text-plain">{{message.text}}</p>
+            </div>
+            <div *ngIf="message.messageType == 'DISPUTE'" class="form-group">
+                <label class="control-label">{{'MESSENGER.HISTORICAL' | translate}}</label>
+                <div class="history-container">
+                    <div *ngFor="let msg of historyMessages" class="history-message">
+                        <div class="history-date">
+                            {{(msg.direction == 'in' ? 'MESSENGER.CUSTOMER' : 'MESSENGER.ANSWER') | translate}}
+                            {{msg.created | date: 'dd/MM/yyyy HH:mm:ss'}}
+                        </div>
+                        <p class="form-control-static text-plain">{{msg.text}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="messenger-reply-answer" class="control-label">{{'MESSENGER.ANSWER' | translate}}</label>
+                <textarea id="messenger-reply-answer" class="form-control" [(ngModel)]="answer"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="md-progress-bar" *ngIf="isSaving">
+        <div class="indeterminate"></div>
+    </div>
+    <div class="row" *ngIf="!isSaving">
+        <div class="col-xs-6">
+            <button class="btn btn-danger pull-right" (click)="closeMe()">
+                <em class="fa fa-close"></em>
+                {{'BUTTONS.CANCEL' | translate}}
+            </button>
+        </div>
+        <div class="col-xs-6">
+            <button class="btn btn-success" (click)="submitAnswer()" [disabled]="!answer">
+                {{'BUTTONS.SUBMIT' | translate}}
+                <em class="fa fa-arrow-right"></em>
+            </button>
+        </div>
+    </div>
+</div>

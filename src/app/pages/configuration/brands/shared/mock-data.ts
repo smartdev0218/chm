@@ -1,0 +1,11 @@
+// http://localhost:4200/chm/backend/sites/415/channels
+export const MOCK_CHANNELS = [{"channelId":1,"name":"Rotulo/Web propia","imageThumbnail":"http://www.moddo.com/wp-content/uploads/2015/10/moddo.png"},{"channelId":2,"name":"Modalia","imageThumbnail":"https://is1-ssl.mzstatic.com/image/thumb/Purple118/v4/f0/74/4e/f0744e89-c9a1-4c4f-acff-e3fce239b0b3/source/256x256bb.jpg"},{"channelId":4,"name":"Ebay","imageThumbnail":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlQqxSU9v7TMTYPJ0ihxAj0AkcwfSzVTUQyshzCEq6IKCH8lDYsQ"},{"channelId":5,"name":"Privalia","imageThumbnail":"https://crunchbase-production-res.cloudinary.com/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco/v1397201985/42e5c82e83055f364e3d63c89d79b773.jpg"},{"channelId":8,"name":"Site Especial","imageThumbnail":"http://www.moddo.com/wp-content/uploads/2015/10/moddo.png"},{"channelId":11,"name":"Prestashop","imageThumbnail":"https://www.shareicon.net/data/256x256/2015/10/06/112718_development_512x512.png"}];
+
+// http://localhost:4200/chm/backend/constants/brands/hermes
+export const MOCK_HERMES_BRANDS = [{"brandId":1,"name":"Adidas"},{"brandId":2,"name":"Puma"},{"brandId":3,"name":"Sin definir"},{"brandId":10,"name":"Stonefly"},{"brandId":11,"name":"Clarks"},{"brandId":12,"name":"Guess"}];
+
+// http://localhost:4200/chm/backend/constants/brands/channel/1
+export const MOCK_CHANNEL_BRANDS = [{"channelBrandId":1,"name":"Adidas","brandIdOnChannel":"111111AA"},{"channelBrandId":2,"name":"Stonefly","brandIdOnChannel":"222222BB"},{"channelBrandId":3,"name":"Lottusse","brandIdOnChannel":"333333CC"},{"channelBrandId":4,"name":"Bravo","brandIdOnChannel":"444444DD"}];
+
+// http://localhost:4200/chm/backend/sites/415//brand-mappings-for-channel/1
+export const MOCK_CHANNEL_MAPPING_BRANDS = [{"channelBrandId":1,"name":"Adidas","brandIdOnChannel":"111111AA"},{"channelBrandId":2,"name":"Stonefly","brandIdOnChannel":"222222BB"},{"channelBrandId":3,"name":"Lottusse","brandIdOnChannel":"333333CC"},{"channelBrandId":4,"name":"Bravo","brandIdOnChannel":"444444DD"}];

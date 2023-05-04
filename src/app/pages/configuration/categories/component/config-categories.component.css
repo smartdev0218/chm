@@ -1,0 +1,33 @@
+
+.devBotonCat {
+  display: inline-block;
+  background-color: white;
+  padding: 5px;
+  margin: 1px;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.devBotonCat.channel {
+  background-color: #bed3f4 !important;
+}
+
+.devBotonCat.hijo {
+  /*margin-left: 5px;*/
+  border: 0.5px solid black;
+  border-style: dotted;
+}
+
+.disabledCat {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.devBotonCatGuardar {
+  display: inline-block;
+  background-color: #c6edb8;
+  padding: 5px;
+  margin-top: 50px;
+  border: 1px solid white;
+  border-radius: 5px;
+}

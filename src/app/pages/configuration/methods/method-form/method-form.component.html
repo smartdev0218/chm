@@ -1,0 +1,144 @@
+<div class="md-progress-bar" *ngIf="isLoading">
+  <div class="indeterminate"></div>
+</div>
+
+<form #f="ngForm" (ngSubmit)="save(f)" *ngIf="!isLoading">
+  <div class="modal-header minimal-color">
+
+    <button type="button" class="close pull-right " aria-label="Close" (click)="onCancel()">
+      <i aria-hidden="true" class="fa fa-times"></i>
+    </button>
+
+    <h4 class="modal-title">{{title}}</h4>
+  </div>
+  <!-- for Edit popup -->
+
+  <div class="modal-body" *ngIf="data.mode !== 'view'">
+
+    <div class="row">
+      <div class="col-md-12">
+        <label class="control-label input-label" for="name">{{ 'METHODS.LABEL_NAME' | translate}} </label>
+        <input type="text" [(ngModel)]="methodModel.name" name="name" required class="form-control">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <fieldset class="periodic-border">
+          <legend class="periodic-border">{{ 'METHODS.LABEL_PERIODIC' | translate}}</legend>
+          <div class="control-group">
+            <label class="control-label input-label">{{ 'METHODS.LABEL_EJECTION' | translate}}</label>
+            <div style="display:inline;" class="controls">
+              <select style="width:65px;display:inline;margin-right:5px;" [(ngModel)]="methodModel.periodHours" name="periodHours" required
+                class="form-control form-control-lg form-control-form option">
+                <option *ngFor="let number of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]" [value]="number">{{ number }}</option>
+              </select> {{ 'METHODS.LABEL_HOUR' | translate}}
+
+              <select style="width:65px;display:inline;" [(ngModel)]="methodModel.periodMinutes" name="periodMinutes" required class="form-control form-control-lg form-control-form option">
+                <option *ngFor="let number of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59]"
+                  [value]="number">{{ number }}</option>
+              </select> {{ 'METHODS.LABEL_MINUTE' | translate}}
+            </div>
+          </div>
+
+          <div class="control-group" style="padding:5px;">
+            <input #c type="checkbox"> {{ 'METHODS.LABEL_PERIODIC_DESCRIPTION' | translate}}
+            <input type="text" [disabled]="!c.checked" style="width:75px;" placeholder="{{ 'METHODS.LABEL_TIME' | translate}}">
+          </div>
+
+        </fieldset>
+      </div>
+
+    </div>
+    <br>
+
+    <div class="row">
+      <div class="col-md-12">
+        <label class="control-label input-label" for="commandPublication">{{ 'METHODS.LABEL_COMMAND_PUBLICATION' | translate}} </label>
+        <input type="text" [(ngModel)]="methodModel.commandPublication" name="commandPublication" required class="form-control" placeholder="{{ 'METHODS.LABEL_COMMAND_PLACEHOLDER' | translate}}">
+      </div>
+    </div>
+    <br>
+
+    <div class="row">
+      <div class="col-md-12">
+        <label class="control-label input-label" for="commandSite">{{ 'METHODS.LABEL_COMMAND_SITE' | translate}} </label>
+        <input type="text" [(ngModel)]="methodModel.commandSite" name="commandSite" required class="form-control" placeholder="{{ 'METHODS.LABEL_COMMAND_PLACEHOLDER' | translate}}">
+      </div>
+    </div>
+    <br>
+
+    <div class="row">
+      <div class="col-md-12">
+        <!-- <input type="checkbox" [(ngModel)]="methodModel.active" name="active" required> -->
+        <input type="checkbox" (change)="onChange($event)" [checked]="methodModel.active" />
+        <label class="control-label input-label">{{ 'METHODS.LABEL_IS_ACTIVE' | translate}} </label>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- for view popup -->
+
+  <div class="modal-body" *ngIf="data.mode == 'view'">
+
+    <div class="row">
+      <div class="col-md-12">
+        <label class="control-label input-label" for="name">{{ 'METHODS.LABEL_NAME' | translate}} </label>
+        <input type="text" [(ngModel)]="methodModel.name" name="name" required class="form-control" disabled="disabled">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <fieldset class="periodic-border">
+          <legend class="periodic-border">{{ 'METHODS.LABEL_NAME' | translate}}</legend>
+          <div class="control-group">
+            <label class="control-label input-label">{{ 'METHODS.LABEL_PERIODIC' | translate}}</label>
+            <div style="display:inline;" class="controls">
+              <select style="width:65px;display:inline;margin-right:5px;" [(ngModel)]="methodModel.periodHours" name="periodHours" required
+                class="form-control form-control-lg form-control-form option" disabled="disabled">
+                <option *ngFor="let number of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]" [value]="number">{{ number }}</option>
+              </select> {{ 'METHODS.LABEL_HOUR' | translate}}
+
+              <select style="width:65px;display:inline;" [(ngModel)]="methodModel.periodMinutes" name="periodMinutes" required class="form-control form-control-lg form-control-form option"
+                disabled="disabled">
+                <option *ngFor="let number of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59]"
+                  [value]="number">{{ number }}</option>
+              </select> {{ 'METHODS.LABEL_MINUTE' | translate}}
+            </div>
+          </div>
+
+          <!--           <div class="control-group" style="padding:5px;">
+            <input #c type="checkbox"> label text comes here
+            <input type="text" [disabled]="!c.checked" style="width:75px;">
+          </div> -->
+
+        </fieldset>
+      </div>
+
+    </div>
+    <br>
+
+    <div class="row">
+      <div class="col-md-12">
+        <label class="control-label input-label" for="command">{{ 'METHODS.LABEL_COMMAND' | translate}} </label>
+        <input type="text" [(ngModel)]="methodModel.command" name="command" required class="form-control" disabled="disabled" placeholder="{{ 'METHODS.LABEL_COMMAND_PLACEHOLDER' | translate}}">
+      </div>
+    </div>
+    <br>
+
+    <div class="row">
+      <div class="col-md-12">
+        <input type="checkbox" [(ngModel)]="methodModel.active" name="active" required disabled="disabled">
+        <label class="control-label input-label">{{ 'METHODS.LABEL_IS_ACTIVE' | translate}} </label>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer" *ngIf="data.mode !== 'view'">
+    <button type="submit" [disabled]="!f.valid" class="btn btn-primary">{{ 'BUTTONS.SAVE' | translate }} </button>
+    <button type="reset" class="btn btn-danger" (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
+  </div>
+</form>

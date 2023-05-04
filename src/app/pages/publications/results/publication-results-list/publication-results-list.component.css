@@ -1,0 +1,21 @@
+.context-menu {
+    cursor: context-menu;
+} 
+
+
+.accordion button{
+    color: white;
+    width: 100%;
+    text-align: left;
+    text-decoration: none;
+}
+.accordion button:hover{
+    text-decoration: none;
+}
+.accordion .card-header{
+    background: #124f6e;
+}
+
+.accordion .card .form-group{
+    width: 25%;
+}

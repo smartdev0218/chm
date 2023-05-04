@@ -1,0 +1,16 @@
+<div class="" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header minimal-color">
+
+         <h4 class="modal-title">{{title | translate}}</h4>
+      </div>
+      <div class="modal-body">
+        <p [innerHTML]="(msg | translate)"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="bsModalRef.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

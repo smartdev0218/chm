@@ -1,0 +1,107 @@
+<div class="md-progress-bar" *ngIf="isLoading">
+  <div class="indeterminate"></div>
+</div>
+
+<form #f="ngForm" (ngSubmit)="save(f)" *ngIf="!isLoading">
+<div class="modal-header minimal-color">
+  <button type="button" class="close pull-right" aria-label="Close" (click)="onCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+  <h4 class="modal-title">{{ title | translate}}</h4>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <label class="col-xs-4 control-label text-right">{{ 'PRESETS.PRESET_NAME' | translate }}</label>
+    <div class="col-xs-8">
+      <input type="text" [(ngModel)]="model.modelName" name="modelName" required class="form-control">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <label class="col-xs-4 control-label text-right">{{ 'PRESETS.PRESET_TYPE' | translate }}</label>
+    <div class="col-xs-8">
+      <select [disabled]="isEditForm()" (change)="getAttr()" [(ngModel)]="model.modelTypeId" name="modelTypeId" required class="form-control form-control-lg form-control-form option">
+        <option *ngFor="let presetType of presetTypes" [value]="presetType.idModelType">{{ presetType.nameFrontView }}</option>
+      </select>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <label class="col-xs-4 control-label text-right">{{ 'PRESETS.CHANNEL' | translate }}</label>
+    <div class="col-xs-8">
+      <select [disabled]="isEditForm()" (change)="getAttr()" [(ngModel)]="model.channelId" name="channelId" required class="form-control form-control-lg form-control-form option">
+        <option *ngFor="let channel of channels" [value]="channel.channelId" class="border-none">{{ channel.name }}</option>
+      </select>
+    </div>
+  </div>
+  <br>
+  <div class="md-progress-bar" *ngIf="isLoadingModelType">
+    <div class="indeterminate"></div>
+  </div>
+  <div *ngIf="!isLoadingModelType && model.modelTypeId != 5">
+    <div class="row" *ngFor="let row of model.modelAttributes; let i = index">
+      <label class="col-xs-4 control-label text-right">{{row.idAttributeModelChannel.attributeNameFrontView}}</label>
+      <div class="col-xs-8">
+          <!-- YYY {{row | json}}  -->
+          <select class="form-control" [(ngModel)]="row.attributeValue" name="{{row.idAttributeModelChannel.attributeName}}" *ngIf="row.idAttributeModelChannel.attributeType === 'LIST_OF_VALOURS'">
+              <option *ngFor="let item of row.idAttributeModelChannel.acceptedValues" [value]="item">
+                  {{ item }}
+              </option>
+          </select>
+
+          <input type="number" class="form-control" [(ngModel)]="row.attributeValue" name="{{row.idAttributeModelChannel.attributeName}}" value="{{row.attributeValue}}" *ngIf="row.idAttributeModelChannel.attributeType === 'NUMBER'">
+
+          <input type="text" class="form-control" [(ngModel)]="row.attributeValue" name="{{row.idAttributeModelChannel.attributeName}}" value="{{row.attributeValue}}" *ngIf="row.idAttributeModelChannel.attributeType === 'STRING'">
+
+          <select class="form-control" [(ngModel)]="row.attributeValue" name="{{row.idAttributeModelChannel.attributeName}}" *ngIf="row.idAttributeModelChannel.attributeType === 'HERMES_FIELD'">
+              <option *ngFor="let inventoryField of inventoryFields" [value]="inventoryField.id">
+                  {{ inventoryField.name }}
+              </option>
+          </select>
+
+          <input type="number" class="form-control" [(ngModel)]="row.attributeValue" name="{{row.idAttributeModelChannel.attributeName}}" value="{{row.attributeValue}}" *ngIf="row.idAttributeModelChannel.attributeType === 'HERMES FIELD'">
+
+          <input type="checkbox" [(ngModel)]="row.attributeValue" name="{{row.idAttributeModelChannel.attributeName}}" value="{{row.attributeValue}}" *ngIf="row.idAttributeModelChannel.attributeType === 'BOOLEAN'">
+
+          <input class="form-control"
+          [(ngModel)]="row.attributeValue" 
+          name="{{row.idAttributeModelChannel.attributeName}}" 
+          value="{{row.attributeValue}}" 
+          ngui-datetime-picker
+          date-only="true"          
+          [close-on-select]="true"                         
+          *ngIf="row.idAttributeModelChannel.attributeType === 'DATE'"/>
+
+
+          <input class="form-control"
+          [(ngModel)]="row.attributeValue" 
+          name="{{row.idAttributeModelChannel.attributeName}}" 
+          value="{{row.attributeValue}}" 
+          ngui-datetime-picker
+          time-only="true"         
+          [close-on-select]="false"   
+          *ngIf="row.idAttributeModelChannel.attributeType === 'TIME'"/>
+
+          <input class="form-control"
+          [(ngModel)]="row.attributeValue" 
+          name="{{row.idAttributeModelChannel.attributeName}}" 
+          value="{{row.attributeValue}}" 
+          ngui-datetime-picker      
+          [close-on-select]="false"   
+          *ngIf="row.idAttributeModelChannel.attributeType === 'DATETIME'"/>
+
+          <br>
+      </div>
+    </div>    
+  </div>
+  <div *ngIf="isCustomModel()">
+      <app-mercado-libre-settings [(model)]="model" (validChange)="setCustomModelValid($event)"></app-mercado-libre-settings>
+  </div>
+</div>
+<div class="modal-footer">
+    <!-- <pre>{{ f.value | json }}</pre>     -->
+  <button type="submit" class="btn btn-primary" [disabled]="isFormInvalid(f)">{{ 'BUTTONS.SAVE' | translate }} </button>
+  <button type="reset" class="btn btn-danger" (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
+</div>
+</form>

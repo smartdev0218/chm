@@ -1,0 +1,158 @@
+<div class="md-progress-bar" *ngIf="isLoading">
+  <div class="indeterminate"></div>
+</div>
+
+<section *ngIf="!isLoading">
+  <div class="row">
+    <form #productsForm="ngForm" class="editForm col-md-12" novalidate>
+
+      <div class="row col-md-12">
+        <div class="modal-content box-shadow-none">
+          <!--           <div class="modal-header minimal-color">
+
+            <h4 class="modal-title">NUEVA PUBLICACIÓN</h4>
+          </div> -->
+          <div class="modal-body">
+            <div>
+              <div style="width:40%; text-align:left; float: left;">
+                <p class="titulo">{{ 'PUBLICATION.STEP_2_OF_4' | translate }}</p>
+
+
+              </div>
+
+
+              <div style="width:60%; text-align:right; float:right;">
+                <button *ngIf="!isLoading" class="btn btn-primary inner" (click)="addProducts()">{{
+                  'PUBLICATION.ADD_MORE_PRODUCTS' | translate }}</button>
+                <button *ngIf="!isLoading" class="btn btn-danger inner" (click)="removeProducts()">{{
+                  'PUBLICATION.REMOVE_SELECTED' | translate }}</button>
+                <div>
+                  <div class="check-autopublish">
+                      <input id="autopublish-check" type="checkbox" [checked]="autoPublish" (change)="toggleAutoPublish()" />
+                      <label for="autopublish-check">{{'PUBLICATION.AUTO_UPDATE_BY_FILTERS' | translate }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- view 1 =>=>=> Zero Products -->
+            <section *ngIf="products?.length === 0 && !isLoading" class="zero-products">
+              <br>
+              <br>
+              <br>
+              <div>
+                <div class="div-bg">
+                  
+                  <div class="md-progress-bar" *ngIf="isLoadingProducts">
+                    <div class="indeterminate"></div>
+                  </div>
+                  <div class="margin-div addproduct-align">
+                    <p *ngIf="!isLoadingProducts">
+                      <b>{{ 'PUBLICATION.ADD_PRODUCTS_BEFORE' | translate }}</b>
+                    </p>
+                    <p *ngIf="isLoadingProducts">
+                      <b>{{ 'COMPONENT.LOADING' | translate }}</b>
+                    </p>
+                    <p>
+                      <a href="javascript:void(0);" (click)="addProducts()" class="btn btn-info" role="button">
+                        <b>{{ 'PUBLICATION.ADD_PRODUCTS' | translate }}</b>
+                      </a>
+                    </p>
+                  </div>
+                </div>
+                <br>
+              </div>
+            </section>
+
+            <!-- view 2 =>=>=> Products selected -->
+            <section *ngIf="temp?.length > 0">
+              <div class="row">
+                <div class="col-md-12">
+                  <div *ngIf="!isLoading" style="width: 100%; margin-top:50px;">
+                    <ngx-datatable #table class="dark striped" [rows]="products" [columnMode]="'flex'" [headerHeight]="50"
+                      [footerHeight]="50" [rowHeight]="'auto'" [limit]="pageSize" [selected]="selected" [selectionType]="'checkbox'"
+                      (select)='onSelect($event)' [externalPaging]="true" [count]="idsProductos.length"
+                      [offset]="page" [limit]="pageSize" (page)='setPage($event)' [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate, selectedMessage: 'DATATABLE.SELECTED_MESSAGE'| translate}">
+
+                      <ngx-datatable-column name="productId">
+                        <ng-template let-column="column" ngx-datatable-header-template let-value="value">
+                          <input type="checkbox" [checked]="allSelected" (click)="selectAllClicked()" />
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                          <input type="checkbox" [checked]="idsProductosSeleccionados[value]" (click)="changeRowSelection(value)" />
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column name="imageThumbnail">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                          {{ 'FILTER.IMAGE' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                          <img [src]="value" onError="this.src='assets/img/V.jpg'" style="width:50px;height:50px;"
+                            [alt]="value">
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column name="description" [flexGrow]="2">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                          {{ 'FILTER.DESCRIPTION' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                          {{value}}
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column name="brand" [flexGrow]="1">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                          {{ 'PUBLICATION.BRAND_LABEL' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                          {{value}}
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column name="codigoAlfa" [flexGrow]="1">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                          {{ 'FILTER.REF' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                          {{value}}
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column name="stock" [flexGrow]="1">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                          {{ 'INVENTARIO_POPUPS.STOCK' | translate }}
+                        </ng-template>
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                          {{value}}
+                        </ng-template>
+                      </ngx-datatable-column>
+                    </ngx-datatable>
+
+                    <br>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+          <div class="modal-footer">
+            <div class="form-group text-center">
+              <button class="btn btn-danger inner" (click)="cancel()">
+                <span style="margin-right:10px;" class="glyphicon glyphicon-remove"></span> {{ 'BUTTONS.CANCEL' |
+                translate }}</button>
+              <button class="btn btn-outline-rounded" (click)="goToPrevious(productsForm)">
+                <span style="margin-right:10px;" class="glyphicon glyphicon-arrow-left"></span> {{ 'BUTTONS.PREVIOUS' |
+                translate }}</button>
+              <button class="btn btn-outline-rounded btn-success" [disabled]="!productsForm.valid" (click)="goToNext(productsForm)">
+                {{ 'BUTTONS.NEXT' | translate }}
+                <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

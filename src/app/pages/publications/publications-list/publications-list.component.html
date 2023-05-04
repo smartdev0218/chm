@@ -1,0 +1,205 @@
+<div class="md-progress-bar" *ngIf="isLoading">
+    <div class="indeterminate"></div>
+  </div>
+
+<div class="row publi-list-toolbar" *ngIf="!isLoading && showToolbar == true">
+  <!--<div class="col-md-6">
+
+  </div>-->
+  <div class="col-md-2 pull-left" align="left">
+    <button class="btn btn-primary btn-verde" data-toggle="modal" (click)="goCreateForm()">{{ 'PUBLICATION.ADD_NEW_PUBLICATION' | translate }}</button>
+  </div> 
+  <div class="col-md-6 pull-right buscar-pub">
+	<input type="checkbox" [(ngModel)]="showUnposted" class="custom-control-input" (change)='updateFilter()' id="showUnposted"> <label class="custom-control-label " for="showUnposted" style="padding-right:20px;">{{ 'PUBLICATION.SHOW_UNPOSTED' | translate }}</label>
+	<input type="checkbox" [(ngModel)]="showOutdated" class="custom-control-input" (change)='updateFilter()' id="showOutdated"> <label class="custom-control-label " for="showOutdated" style="padding-right:20px;">{{ 'PUBLICATION.SHOW_OUTDATED' | translate }}</label>
+    <input class="margin-input" type="text" id="filterPublications" placeholder="{{ 'PUBLICATION.SEARCH' | translate }}" class="form-control" (keyup)='updateFilter()' />
+  </div>
+</div> 
+<br>
+<div class="row dashboard-publication">
+  <div class="col-md-12">
+    <div *ngIf="!isLoading">
+
+      <ngx-datatable #table class="dark striped" [rows]="publications" [columnMode]="'flex'" [headerHeight]="35" [footerHeight]="35"
+        [rowHeight]="'auto'" 
+        [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}"
+        >
+
+        <ngx-datatable-column name="alerta" [flexGrow]="1" [sortable]="true" >
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          	<span (click)="sort()" style="cursor: pointer;" class="context-menu ">{{ 'PUBLICATION.ALERT' | translate }}</span>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+     			<img *ngIf="!row.active" style="width:20px; height:20px;" src="assets/img/circulo_gris.png" title="El método no está activo." alt="">
+				<img *ngIf="row.active && !row.estadoAlertaEjecAuto" style="width:20px; height:20px;" src="assets/img/circulo_verde.png" title="OK" alt="">
+				<img *ngIf="row.active && row.estadoAlertaEjecAuto==3" style="width:20px; height:20px;" src="assets/img/circulo_naranja.png" title="{{row.estadoAlertaEjecAutoDesc}}" alt="">
+				<img *ngIf="row.active && row.estadoAlertaEjecAuto==2" style="width:20px; height:20px;" src="assets/img/circulo_azul.png" title="{{row.estadoAlertaEjecAutoDesc}}" alt="">
+				<img *ngIf="row.active && row.estadoAlertaEjecAuto==4" style="width:20px; height:20px;" src="assets/img/circulo_rojo.png" title="{{row.estadoAlertaEjecAutoDesc}}" alt="">
+          </ng-template>
+        </ngx-datatable-column>
+        
+        <ngx-datatable-column name="aviso" [flexGrow]="1" [sortable]="true">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()" style="cursor: pointer;" class="context-menu ">{{ 'PUBLICATION.WARNING' | translate }} </span>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          		<i *ngIf="!row.avisoErrores || row.avisoErrores == ''" class="fa fa-check" aria-hidden="true" style="color: #4fce02"></i>
+				<i *ngIf="!(!row.avisoErrores || row.avisoErrores == '')" class="fa fa-exclamation-triangle" aria-hidden="true" style="color: #ff7c00" title="{{row.avisoErrores}}"></i>
+				<i *ngIf="row.locked" class="fa fa-save parpadea" aria-hidden="true" style="color: orange" title="{{ 'PUBLICATION.SAVING' | translate }}"></i>
+          </ng-template>
+        </ngx-datatable-column>
+        
+        <ngx-datatable-column name="publicationId" [flexGrow]="1" [sortable]="true">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()" style="cursor: pointer;" class="context-menu ">#</span>
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <strong>{{value}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="channel" [flexGrow]="1" [sortable]="true">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()" style="cursor: pointer;" class="context-menu ">{{ 'PRESETS.CHANNEL' | translate }}</span>
+          </ng-template>
+          <ng-template let-value="value.imageThumbnail" ngx-datatable-cell-template>
+            <!-- <strong>{{value}}</strong> -->
+            <!-- <img src="assets/img/ebay-logo.png" class="img-size"> -->
+            <img [src]="value" onError="this.src='assets/img/V.jpg'" style="width:35px;height:35px;" [alt]="value"> 
+          </ng-template>
+        </ngx-datatable-column>
+        
+        <ngx-datatable-column name="priority" [flexGrow]="1" [sortable]="true">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()" style="cursor: pointer;" class="context-menu ">{{ 'PUBLICATION.PRIORITY' | translate }}</span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="name" [flexGrow]="3" [sortable]="true">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()" style="cursor: pointer;" class="context-menu ">{{ 'INVENTARIO_POPUPS.PUBLICATION' | translate }} </span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="countProducts" [flexGrow]="1" [sortable]="true">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()" style="cursor: pointer;" class="context-menu ">{{ 'PUBLICATION.N_PRODUCTS' | translate }} </span>
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="name" [flexGrow]="3">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            {{ 'PUBLICATION.PERIOD_OF_PUBLICATION' | translate }} 
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="row.startDate && row.finishDate">
+              {{row.startDate | date:'dd/MM/yyyy'}} To {{row.finishDate | date:'dd/MM/yyyy'}}
+            </div>
+            <div *ngIf="!(row.startDate && row.finishDate)">No Interval</div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="active" [flexGrow]="1" [sortable]="true">
+          <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+            <span (click)="sort()" style="cursor: pointer;" class="context-menu ">{{ 'PUBLICATION.POSTED' | translate }} </span>
+          </ng-template>
+          <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+            <div class="">
+              <input type="checkbox" class="checkbox-custom" [checked]="value" (click)="postPublication(row)" />
+            </div>
+
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="action" [flexGrow]="2">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            {{ 'PRESETS.ACTION' | translate }} 
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <a href="javascript:void(0)"><i class="fa fa-gear skin-blue-condary" (click)="goPublicationResultList(row)" title="Ver Resultados"></i> </a>  |     
+            <a *ngIf="!row.locked" href="javascript:void(0)"><i class="fa fa-pencil  icons-size skin-blue-secondary" (click)="goEditForm(row)" title="Editar"></i></a>  
+            <a *ngIf="row.locked" ><i class="fa fa-pencil disabled" style="color:#AAAAAA;" title="Editar"></i></a>  | 
+            <a *ngIf="!row.locked" href="javascript:void(0)"><i class="fa fa-trash  icons-size skin-blue-secondary" (click)="deletePublication(row)" title="Eliminar"></i></a>  
+            <a *ngIf="row.locked" ><i class="fa fa-trash disabled" style="color:#AAAAAA;" title="Eliminar"></i></a> | 
+            <a *ngIf="!row.locked" href="javascript:void(0)"><i class="fa fa-play  icons-size skin-blue-secondary" (click)="runMethodDialog(row)" title="{{ 'PUBLICATION.RUN_METHOD' | translate }}"></i></a>
+            <a *ngIf="row.locked" ><i class="fa fa-play disabled" style="color:#AAAAAA;" title="{{ 'PUBLICATION.RUN_METHOD' | translate }}"></i></a>
+            <button id="openModalRunMethodButton" [hidden]="true" data-toggle="modal" data-target="#runMethodModal">Open Modal</button>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="runningMethods" [flexGrow]="2">
+          <ng-template let-column="column" ngx-datatable-header-template>
+            {{ 'PUBLICATION.RUNNING_METHODS' | translate }} 
+          </ng-template>
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <div *ngIf="row.runningMethods!=null">
+              <!-- <div class="loader"> </div>-->
+              <div style="border:1px solid #124f6e; text-align: center; background:#FCFBC8; float: left; margin-left:2px; padding-left:4px; padding-right:4px;" *ngFor="let runningMethod of row.runningMethods">
+                {{runningMethod.nombreMetodo}}
+                <em *ngIf="runningMethod.id && !runningMethod.stopping" class="fa fa-stop pointer-cursor" style="color:#555;" title="{{ 'PUBLICATION.STOP_METHOD' | translate }}" (click)="stopMethod(runningMethod)"></em>
+                <em *ngIf="runningMethod.id && runningMethod.stopping" class="fa fa-spinner" style="color:#555;"></em>
+              </div>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="runMethodModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+      <div class="modal-header box-header with-border">
+        <h3 class="box-title font-size-14 ">{{ 'PUBLICATION.RUN_METHOD' | translate }} </h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <div class="md-progress-bar" *ngIf="isLoadingMethodsDialog">
+        <div class="indeterminate"></div>
+      </div>
+      <div *ngIf="!isLoadingMethodsDialog">
+        <div class="modal-body" *ngIf="channelMethods==null || channelMethods.length==0">
+          <p>{{ 'PUBLICATION.NO_METHOD_AVAILABLE' | translate:{canal:runMethodChannelName} }}</p>
+        </div>
+        <div class="modal-body" *ngIf="channelMethods!=null && channelMethods.length>0">
+          <p> {{ 'PUBLICATION.SELECT_METHOD' | translate}} </p>
+           <select id="selectMethodSelected">
+            <option *ngFor="let method of channelMethods" value="{{method.methodId}}">{{method.name}}</option>
+          </select> 
+          <br/>
+          <p> {{ 'PUBLICATION.ASK_PUBLICATIONS_OF_METHOD' | translate:{canal:runMethodChannelName,publicacion:runMethodPublicationName} }} </p>
+          <select id="selectMethodScope">
+            <option value="{{runMethodPublicationId}}">{{ 'PUBLICATION.ONLY_FOR_PUBLICATION' | translate:{publicacion:runMethodPublicationName} }}</option>
+            <option value="0">{{ 'PUBLICATION.ALL' | translate }}</option>
+          </select >
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" *ngIf="!isLoadingMethodsDialog && (channelMethods!=null && channelMethods.length>0)" (click)="runMethod()">{{ 'PUBLICATION.RUN_METHOD' | translate }}</button>
+        <button id="closeDialog" type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'PUBLICATION.CLOSE' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 
+<p>
+  publications-list works!
+  <a href="javascript:void(0);" (click)="goCreateForm()" class="btn btn-info" role="button">New</a>
+  <a href="javascript:void(0);" (click)="goEditForm({modelId:1})" class="btn btn-info" role="button">Edit</a>
+</p> -->

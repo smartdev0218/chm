@@ -1,0 +1,88 @@
+<div class="widget">
+    <div class="md-progress-bar" *ngIf="isLoading">
+        <div class="indeterminate"></div>
+    </div>
+    <div class="box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+        <div class="box-header with-border">
+            <h3 class="box-title font-size-14 ">{{ 'DASHBOARD_RUNNING_METHODS.RUNNING_METHODS' | translate }} </h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool pad-top-0" (click)="updateMethods()">
+                    <i class="fa fa-repeat dashboard-action-icons"></i>
+                </button>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body methods-table">
+            <!-- Conversations are loaded here -->
+            <div class="direct-chat-messages pad-top-0 scrollbar right-sidebar">              
+
+              <br/>
+              <ngx-datatable #table class=" dark striped" [rows]="runningMethods" [rowHeight]="'auto'" 
+                [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}"
+                >
+
+                <ngx-datatable-column [flexGrow]="1">
+                  <ng-template let-column="column" ngx-datatable-header-template>
+                    {{ 'DASHBOARD_RUNNING_METHODS.METHOD' | translate }}
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.nombreMetodo}} ({{row.idMetodo}})
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1">
+                  <ng-template let-column="column" ngx-datatable-header-template>
+                    {{ 'DASHBOARD_RUNNING_METHODS.DATE_EXECUTION' | translate }}
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span *ngIf="row.idEstado == 0">{{row.fechaPreparada | date:'short'}}</span>
+                    <span *ngIf="row.idEstado == 1">{{row.fechaEjecucion | date:'short'}}</span>
+                    <span *ngIf="row.idEstado == 2">{{row.fechaFinalizacion | date:'short'}}</span>
+                    <span *ngIf="row.idEstado > 2">-</span>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1">
+                  <ng-template let-column="column" ngx-datatable-header-template>
+                    {{ 'DASHBOARD_RUNNING_METHODS.CHANNEL' | translate }}
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.nombreCanal}}
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1">
+                  <ng-template let-column="column" ngx-datatable-header-template>
+                    {{ 'DASHBOARD_RUNNING_METHODS.PUBLICATION' | translate }}
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.nombrePublicacion}} ({{row.idPublicacion}})
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1">
+                  <ng-template let-column="column" ngx-datatable-header-template>
+                    {{ 'DASHBOARD_RUNNING_METHODS.USER' | translate }}
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{row.usuario}}
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1">
+                  <ng-template let-column="column" ngx-datatable-header-template>
+                    {{ 'DASHBOARD_RUNNING_METHODS.STATUS' | translate }}
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span *ngIf="row.idEstado == 0">Preparada</span>
+                    <span *ngIf="row.idEstado == 1">Ejecutándose</span>
+                    <span *ngIf="row.idEstado == 2">Esperando resultados</span>
+                    <span *ngIf="row.idEstado > 2">{{row.idEstado}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+
+              </ngx-datatable>
+            </div>
+        </div>
+    </div>
+</div>

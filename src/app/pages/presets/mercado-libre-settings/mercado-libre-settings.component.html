@@ -1,0 +1,100 @@
+<div class="mercado-libre-settings-form">
+    <div class="row form-group">
+        <label for="listingTypeSelector" class="col-xs-4 control-label text-right">{{'ML_SETTINGS.LISTING_TYPE' | translate}}</label>
+        <div class="col-xs-8">
+            <select id="listingTypeSelector" class="form-control" [(ngModel)]="settings.listingType"
+                (ngModelChange)="validateAndEmitChanges()" [class.invalid]="invalidFields['listingType']">
+                <option *ngFor="let item of listingTypes" [value]="item">{{'ML_SETTINGS.LISTING_TYPE_' + item | translate}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="shippingTypeSelector" class="col-xs-4 control-label text-right">{{'ML_SETTINGS.SHIP_TYPE' | translate}}</label>
+        <div class="col-xs-8">
+            <select id="shippingTypeSelector" class="form-control" [(ngModel)]="settings.shippingType"
+                (ngModelChange)="validateAndEmitChanges()" [class.invalid]="invalidFields['shippingType']">
+                <option *ngFor="let item of shippingTypes" [value]="item">{{'ML_SETTINGS.SHIP_TYPE_' + item | translate}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="fragileShipping" class="col-xs-4 control-label text-right">{{'ML_SETTINGS.FRAGILE_SHIPPING' | translate}}</label>
+        <div class="col-xs-8">
+            <input id="fragileShipping" type="checkbox" [(ngModel)]="settings.fragileShipping" (ngModelChange)="validateAndEmitChanges()"/>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="discountCheck" class="col-xs-4 control-label text-right">{{'ML_SETTINGS.DISCOUNTS.CHECK' | translate}}</label>
+        <div class="col-xs-8">
+            <input id="discountCheck" type="checkbox" [(ngModel)]="settings.discountsEnabled" (ngModelChange)="validateAndEmitChanges()"/>
+        </div>
+    </div>
+    <div class="row form-group" [class.disabled]="!settings.discountsEnabled">
+        <div class="col-xs-12">
+            <h4>{{'ML_SETTINGS.DISCOUNTS.TITLE' | translate}}</h4>
+        </div>
+    </div>
+    <div class="row form-group" [class.disabled]="!settings.discountsEnabled">
+        <label for="discountLowLevels" class="col-xs-4 control-label text-right">{{'ML_SETTINGS.DISCOUNTS.LOW_LEVELS' | translate}}</label>
+        <div class="col-xs-2">
+            <input id="discountLowLevels" class="form-control" type="number" max="100" [disabled]="!settings.discountsEnabled"
+                [(ngModel)]="settings.discountLowLevels" (ngModelChange)="validateAndEmitChanges()"
+                [class.invalid]="invalidFields['discountLowLevels']"/>
+        </div>
+        <label for="discountHighLevels" class="col-xs-4 control-label text-right">{{'ML_SETTINGS.DISCOUNTS.HIGH_LEVELS' | translate}}</label>
+        <div class="col-xs-2">
+            <input id="discountHighLevels" class="form-control" type="number" max="100" [disabled]="!settings.discountsEnabled"
+                [(ngModel)]="settings.discountHighLevels" (ngModelChange)="validateAndEmitChanges()"
+                [class.invalid]="invalidFields['discountHighLevels']"/>
+        </div>
+    </div>
+    <div class="row form-group" [class.disabled]="!settings.discountsEnabled">
+        <label for="discountStartDate" class="col-xs-4 control-label text-right">{{'ML_SETTINGS.DISCOUNTS.START_DATE' | translate}}</label>
+        <div class="col-xs-8">
+            <input id="discountStartDate" class="form-control" [disabled]="!settings.discountsEnabled"
+                [(ngModel)]="settings.discountStartDate" (ngModelChange)="validateAndEmitChanges()"
+                [class.invalid]="invalidFields['discountStartDate']" ngui-datetime-picker readonly [close-on-select]="true"/>
+        </div>
+    </div>
+    <div class="row form-group" [class.disabled]="!settings.discountsEnabled">
+        <label for="discountEndDate" class="col-xs-4 control-label text-right">{{'ML_SETTINGS.DISCOUNTS.END_DATE' | translate}}</label>
+        <div class="col-xs-8">
+            <input id="discountEndDate" class="form-control" [disabled]="!settings.discountsEnabled"
+                [(ngModel)]="settings.discountEndDate" (ngModelChange)="validateAndEmitChanges()"
+                [class.invalid]="invalidFields['discountEndDate']" ngui-datetime-picker readonly [close-on-select]="true"/>
+        </div>
+    </div>
+    <div class="row form-group" [class.disabled]="!settings.discountsEnabled">
+        <div class="col-xs-12">
+            <h4>{{'ML_SETTINGS.DISCOUNTS.EXPLANATION.TITLE' | translate}}</h4>
+            <ul>
+                <li>
+                    <span [innerHTML]="'ML_SETTINGS.DISCOUNTS.EXPLANATION.1' | translate"></span>
+                </li>
+                <li>
+                    <span [innerHTML]="'ML_SETTINGS.DISCOUNTS.EXPLANATION.2' | translate"></span>
+                    <ul>
+                        <li>
+                            <span [innerHTML]="'ML_SETTINGS.DISCOUNTS.EXPLANATION.2_1' | translate"></span>
+                        </li>
+                        <li>
+                            <span [innerHTML]="'ML_SETTINGS.DISCOUNTS.EXPLANATION.2_2' | translate"></span>
+                        </li>
+                        <li>
+                            <span [innerHTML]="'ML_SETTINGS.DISCOUNTS.EXPLANATION.2_3' | translate"></span>
+                        </li>
+                        <li>
+                            <span [innerHTML]="'ML_SETTINGS.DISCOUNTS.EXPLANATION.2_4' | translate"></span>
+                        </li>
+                        <li>
+                            <span [innerHTML]="'ML_SETTINGS.DISCOUNTS.EXPLANATION.2_5' | translate"></span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span [innerHTML]="'ML_SETTINGS.DISCOUNTS.EXPLANATION.3' | translate"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

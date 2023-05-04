@@ -1,0 +1,41 @@
+.red-border {
+    /**border: 1px solid red !important;*/
+}
+
+ul {
+    list-style: none;
+}
+
+.datatable-header-cell{
+    text-align: center;
+}
+
+.context-menu {
+    cursor: context-menu;
+}
+
+.ngx-datatable .datatable-body .datatable-body-row > div:hover{
+    background: none !important;
+}
+
+.red-border {
+    background-color: #f59c9c !important;
+}
+
+
+.detail-filter{
+    text-align: right;
+    margin-bottom: 2rem;
+}
+
+.detail-filter input{
+    width: 56%;
+}
+
+.header-modal{
+    margin-bottom: 2rem;
+}
+
+.select-states{
+    padding-right: 2rem;
+}

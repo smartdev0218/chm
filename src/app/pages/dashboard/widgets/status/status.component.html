@@ -1,0 +1,61 @@
+<div class="widget">
+    <div class="md-progress-bar" *ngIf="isLoading">
+        <div class="indeterminate"></div>
+    </div>
+    <div class="box widget-box widget-box-border direct-chat direct-chat-warning direct-chat-contacts-open">
+        <div class="box-header with-border">
+            <h3 class="box-title font-size-14">{{ 'DASHBOARD_CHNL_STATUS.CHANNEL_STATUS' | translate }}</h3>
+
+            <div class="box-tools pull-right">
+
+                <button type="button" class="btn btn-box-tool pad-top-0" (click)="updateStatus()">
+                    <i class="fa fa-repeat dashboard-action-icons"></i>
+                </button>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+
+
+            <!-- Conversations are loaded here -->
+            <div class="direct-chat-messages pad-top-0 scrollbar right-sidebar" style="height:400px;">
+            <div class="text-right help-text">{{ 'DASHBOARD_CHNL_STATUS.LAST_UPDATE' | translate}}:
+                <span>{{refreshTime | date:'dd/MM/yyyy hh:mm a'}}</span>
+            </div>
+ 
+        <div class="row pad-5A">
+
+            <table class="table">
+            	<tr>
+            		<th>{{ 'DASHBOARD_CHNL_STATUS.CHANNEL' | translate}}</th>
+            		<th>{{ 'DASHBOARD_CHNL_STATUS.CHANNEL_NAME' | translate}}</th>
+            		<th>{{currency}} {{ 'DASHBOARD_CHNL_STATUS.IMPORT' | translate}} </th>
+            		<th>{{ 'DASHBOARD_CHNL_STATUS.ORDERS' | translate}}</th>
+            		<th>{{ 'DASHBOARD_CHNL_STATUS.STATES' | translate}}</th>
+            	</tr>
+                <tr *ngFor="let channel of channels" class="pointer-cursor">
+                    <td (click)="openDetailDialog(channel)"><img [src]="channel.channelImage" onError="this.src='assets/img/V.jpg'" style="height:28px;" [alt]="channel.channelName"/></td>
+                    <td (click)="openDetailDialog(channel)">{{channel.channelName}}</td>
+                   	<td *ngIf="!channel.needsAuthorization">{{currency}} {{channel.sumAmounts}} </td>
+                   	<td *ngIf="!channel.needsAuthorization">{{channel.totalSales}}</td>
+                    <td *ngIf="channel.needsAuthorization" colspan="2" (click)="openDetailDialog(channel)" class="text-success text-uppercase">{{'DASHBOARD_CHNL_STATUS.AVAILABLE_CHANNEL' | translate}}</td>
+                    <td><img style="background-repeat: no-repeat;display: inline-block;fill: currentColor;height: 16px;width: 16px;" src="{{channel.statusImg}}" alt="{{channel.statusName}}" /></td>
+                </tr>
+            </table>
+        </div>
+      <!--           <div class="row pad-5A" >
+
+                    <div class="col-md-9">
+                        <span>
+                            
+                        </span>
+                        <label ></label>
+                    </div>
+                    <div class="col-md-3">&nbsp;</div>
+                </div> -->
+
+            </div>
+
+        </div>
+    </div>
+</div>

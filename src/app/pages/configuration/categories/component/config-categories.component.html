@@ -1,0 +1,54 @@
+<!-- Listado de canales -->
+<div class="row" *ngIf="!isLoading">
+
+	<div class="col-md-12" *ngIf="listChannels.length == 0">
+		{{'CATEGORIES.NO_CHANNELS_FOUND' | translate}}
+	</div>
+	
+	<div class="col-md-12" *ngIf="listChannels.length != 0">
+	
+		<!-- Custom Tabs -->
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+				<li class="active" *ngFor="let channel of listChannels.slice(0, 1)"
+					id="tab{{channel.channelId}}link"><a href="#tab_1"
+					data-toggle="tab" aria-expanded="true"
+					(click)="getCategoriesData(channel.channelId)">{{channel.name}}</a></li>
+				<li class=""
+					*ngFor="let channel of listChannels.slice(1, listChannels.length)"
+					id="tab{{channel.channelId}}link"><a href="#tab_1"
+					data-toggle="tab" aria-expanded="true"
+					(click)="getCategoriesData(channel.channelId, channel.hasSecondaryCategories)">{{channel.name}}</a></li>
+			</ul>
+			
+			<div class="tab-content" *ngIf="listChannels.length != 0" >
+							
+				<div class="row  col-md-12 " id="tab_1">
+
+					<accordion [showArrows]="true" [closeOthers]="true" [expandAll]="false"  *ngIf="idSite > 0 && idChannel > 0">
+					    <accordion-group heading="">
+					        <accordion-heading>
+					            <accordion-toggle style="cursor: pointer;">{{'CATEGORIES.MAIN_CATEGORIES' | translate}}</accordion-toggle>
+					        </accordion-heading>
+					        <!-- Mapeo de categorías principales -->
+							<chm-config-categories-primary [idSite]="idSite" [idChannel]="idChannel"></chm-config-categories-primary>.
+					    </accordion-group>
+					    <accordion-group heading="" *ngIf="hasSecondaryCategories">
+					        <accordion-heading>
+					            <accordion-toggle style="cursor: pointer;">{{'CATEGORIES.SECONDARY_CATEGORIES' | translate}}</accordion-toggle>
+					        </accordion-heading>
+					        <!-- Mapeo de categorías principales -->
+							<chm-config-categories-secondary [idSite]="idSite" [idChannel]="idChannel"></chm-config-categories-secondary>.
+					    </accordion-group>
+					</accordion>
+					
+				</div>
+				<!-- /.tab-pane -->
+			</div>
+			<!-- /.tab-content -->
+		</div>
+		<!-- nav-tabs-custom -->
+	</div>
+	<div class="col-md-2"></div>
+</div>
+

@@ -1,0 +1,10 @@
+section.header {
+    position: relative;
+    margin-bottom: 30px;
+}
+md-progress-bar {
+    position: absolute;
+}
+h4 {
+    margin-top: 0px;
+}

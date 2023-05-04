@@ -1,0 +1,329 @@
+<!-- <section> -->
+  <div class="form_anadirproductos" role="dialog">
+    <div>
+  
+      <div class="modal-header minimal-color">
+        <h4 class="modal-title">{{ 'PUBLICATION.PRODUCT_CATALOG_HEADER' | translate }}</h4>
+      </div>
+      <div class="md-progress-bar" *ngIf="isLoading">
+        <div class="indeterminate"></div>
+      </div>
+      <div>
+  
+        <div class="modal-body">
+  
+          <div *ngIf="!isLoading">
+            <div class="row filter-container-row">
+              <div class="barrafiltros">
+                <div class="bt_mostrarfiltros" (click)="mostrarfiltros()">
+                  {{ 'FILTER.FILTERS' | translate }}
+                  <em class="fa fa-filter"></em>
+                </div>
+                <a (click)="deleteFilters()" class="bt_borrarfiltros">
+                  <em class="fa fa-times"></em>&nbsp;&nbsp;{{ 'FILTER.DELETE_FILTERS' | translate }}
+                </a>
+              </div>
+
+              <div class="col-md-3 col-lg-2 filter-input-container right-sidebar">
+                <div class="row filter-title">
+                  <div class="col-md-12 bold " (click)="cerrarfiltros()">{{ 'FILTER.FILTERS' | translate }}
+                    <span class="pull-right pointer-cursor">
+                      <em class="fa fa-close"></em>
+                    </span>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-12">
+                    <input type="text" class="form-control" (keyup)='updateFilter($event)' placeholder="{{ 'FILTER.PLACEHOLDER_TEXT' | translate }}" />
+                  </div>
+                </div>
+                <br>
+                <form novalidate>
+                  <div class="row filter-border" id="publishedDiv">
+                    <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('publishedDiv')">
+                      {{ 'FILTER.TEXT' | translate }}
+                    </div>
+                    <div class="col-md-12 filter-scroll right-sidebar">
+                      <div class="col-md-12">
+                        <div class="col-md-6">{{ 'FILTER.REF_EAN_SKU' | translate }}</div>
+                        <div class="col-md-6 pad-left-0">
+                          <textarea class="form-control" type="text" style="resize:none;"
+                            (input)="onAlphaOrEanOrSkuChange()"
+                            (focusout)="onAlphaOrEanOrSkuFocusOut()" [(ngModel)]="alphaOrEanOrSkuFilterValue" [ngModelOptions]="{standalone: true}"></textarea>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-md-12">
+                        <div class="col-md-6">{{ 'FILTER.DESCRIPTION' | translate }}</div>
+                        <div class="col-md-6 pad-left-0">
+                          <input type="text" class="form-control" [(ngModel)]="descriptionFilterValue" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row filter-border" id="channelsFilterContainer">
+                    <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('channelsFilterContainer')">
+                      {{ 'FILTER.CHANNELS' | translate }}
+                    </div>
+                    <div class="col-md-12 filter-scroll right-sidebar">
+                      <div>
+                        <div class="col-md-12">
+                          <input type="checkbox" class="check-filter" (change)="markAllChecks($event, channelChecks)" [(ngModel)]="channelsAtLeastOne" [ngModelOptions]="{standalone: true}" />
+                          <span>{{ 'FILTER.AT_LEAST_ONE_CHANNEL' | translate }}</span>
+                        </div>
+                        <div class="col-md-12" *ngFor="let channel of channelChecks">
+                          <input type="checkbox" class="check-filter" [(ngModel)]="channel.check" [ngModelOptions]="{standalone: true}" (change)="checkboxChannelChanged()"/>
+                          <span>{{channel.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row filter-border" id="channelsNotFilterContainer">
+                    <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('channelsNotFilterContainer')">
+                      {{ 'FILTER.CHANNELS_NOT' | translate }}
+                    </div>
+                    <div class="col-md-12 filter-scroll right-sidebar">
+                      <div>
+                        <div class="col-md-12">
+                          <input type="checkbox" class="check-filter" (change)="markAllChecks($event, channelNotChecks)" [(ngModel)]="channelsAny" [ngModelOptions]="{standalone: true}" />
+                          <span>{{'FILTER.ANY_CHANNEL' | translate }}</span>
+                        </div>
+                        <div class="col-md-12" *ngFor="let channel of channelNotChecks">
+                          <input type="checkbox" class="check-filter" [(ngModel)]="channel.check" [ngModelOptions]="{standalone: true}" (change)="checkboxChannelNotChanged()"/>
+                          <span>{{channel.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row filter-border" id="categoriesFilterContainer">
+                    <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('categoriesFilterContainer')">
+                      {{ 'FILTER.CATEGORIES' | translate }}
+                    </div>
+                    <div class="col-md-12 filter-scroll right-sidebar">
+                      <div>
+                        <div class="col-md-12">
+                          <input type="checkbox" class="check-filter" (change)="markAllChecks($event, categoryChecks)" />
+                          <span>{{ 'FILTER.SELECT_ALL' | translate }}</span>
+                        </div>
+                        <div class="col-md-12" *ngFor="let category of categoryChecks">
+                          <input type="checkbox" class="check-filter" [(ngModel)]="category.check" [ngModelOptions]="{standalone: true}" />
+                          <span>{{category.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row filter-border" id="brandsFilterContainer">
+                    <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('brandsFilterContainer')">
+                      {{ 'FILTER.BRANDS' | translate }}
+                    </div>
+                    <div class="col-md-12 filter-scroll right-sidebar">
+                      <div>
+                        <div class="col-md-12">
+                          <input type="checkbox" class="check-filter" (change)="markAllChecks($event, brandChecks)" />
+                          <span>{{ 'FILTER.SELECT_ALL' | translate }}</span>
+                        </div>
+                        <div class="col-md-12" *ngFor="let brand of brandChecks">
+                          <input type="checkbox" class="check-filter" [(ngModel)]="brand.check" [ngModelOptions]="{standalone: true}" />
+                          <span>{{brand.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row filter-border" id="priceFilterContainer">
+                    <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('priceFilterContainer')">
+                      {{ 'FILTER.PRICE' | translate }}
+                    </div>
+                    <div class="col-md-12 filter-scroll right-sidebar">
+                      <div class="col-md-12">
+                        <div class="col-md-6"> {{ 'FILTER.MIN' | translate }} </div>
+                        <div class="col-md-6 pad-left-0">
+                          <input type="number" class="form-control" [(ngModel)]="priceMinFilterValue" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-md-12">
+                        <div class="col-md-6"> {{ 'FILTER.MAX' | translate }} </div>
+                        <div class="col-md-6 pad-left-0">
+                          <input type="number" class="form-control" [(ngModel)]="priceMaxFilterValue" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                      </div>
+                      <br>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row filter-border" id="priceFeeFilterContainer">
+                    <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('priceFeeFilterContainer')">
+                      {{ 'FILTER.FEE' | translate}}
+                    </div>
+                    <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                      <div class="col-md-12">
+                        <div class="col-md-6"> {{ 'FILTER.MIN' | translate }} </div>
+                        <div class="col-md-6 pad-left-0">
+                          <input type="number" class="form-control" [(ngModel)]="priceMinFeeFilterValue" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                      </div>
+                      <br>
+                      <div class="col-md-12">
+                        <div class="col-md-6"> {{ 'FILTER.MAX' | translate }} </div>
+                        <div class="col-md-6 pad-left-0">
+                          <input type="number" class="form-control" [(ngModel)]="priceMaxFeeFilterValue" [ngModelOptions]="{standalone: true}" />
+                        </div>
+                      </div>
+                      <br>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row filter-border" id="stationsFilterContainer">
+                    <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('stationsFilterContainer')">
+                      {{ 'FILTER.STATIONS' | translate }}
+                    </div>
+                    <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                      <div>
+                        <div class="col-md-12" *ngFor="let station of stationChecks">
+                          <input type="checkbox" class="check-filter" [(ngModel)]="station.check" [ngModelOptions]="{standalone: true}" />
+                          <span>{{station.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row filter-border" id="rotulosFilterContainer">
+                    <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('rotulosFilterContainer')">
+                      {{ 'FILTER.ROTULOS' | translate }}
+                    </div>
+                    <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                      <div>
+                        <div class="col-md-12" *ngFor="let rotulo of rotuloChecks">
+                          <input type="checkbox" class="check-filter" [(ngModel)]="rotulo.check" [ngModelOptions]="{standalone: true}" />
+                          <span>{{rotulo.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row  filter-border" id="activeFilterContainer">
+                    <div class="col-md-12 bold" (click)="mostrarcerrar_filtro('activeFilterContainer')">
+                      {{'FILTER.ACTIVE_PRODUCTS' | translate }}
+                    </div>
+                    <div class="col-md-12 filter-scroll right-sidebar scrollbar">
+                      <div>
+                        <div class="col-md-12">
+                          <input type="checkbox" class="check-filter" [(ngModel)]="activeFilterValue" [ngModelOptions]="{standalone: true}" />
+                          <span>{{'FILTER.ACTIVE' | translate }}</span>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="checkbox" class="check-filter" [(ngModel)]="stockFilterValue" [ngModelOptions]="{standalone: true}" />
+                          <span>{{'FILTER.WITH_STOCK' | translate }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row filter-buttons">
+                    <div class="button-column col-md-12 col-sm-12">
+                      <button (click)="refresh()" class="form-control btn-primary">
+                        {{ 'FILTER.APPLY' | translate }}
+                      </button>
+                    </div>
+                  </div>
+                  <br>
+                </form>
+              </div>
+  
+              <!-- end form filter -->
+  
+              <div class=" col-lg-12 filter-table-container">
+                <ngx-datatable class="dark striped datatable-scroll" [rowIdentity]="getId" [rows]="products"
+                  columnMode="flex" [headerHeight]="50" [footerHeight]="50" rowHeight="auto"
+                  [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size"
+                  (page)='setPage($event)' [selected]="selected" [selectionType]="'checkbox'"
+                  [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate, selectedMessage: 'DATATABLE.SELECTED_MESSAGE'| translate}">
+  
+                  <ngx-datatable-column name="imageThumbnail">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'FILTER.IMAGE' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                      <img [src]="value" onError="this.src='assets/img/V.jpg'" style="width:50px;height:50px;"
+                        [alt]="value">
+                      <!-- {{row.productId}} -->
+                    </ng-template>
+                  </ngx-datatable-column>
+  
+                  <ngx-datatable-column name="productId">
+                    <ng-template let-column="column" ngx-datatable-header-template let-value="value">
+                      <input type="checkbox" [checked]="allSelected" (click)="selectAllClicked()" />
+                    </ng-template>
+                    <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected">
+                      <input type="checkbox" [checked]="idsSelected[value]" (click)="changeRowSelection(value)" />
+                    </ng-template>
+                  </ngx-datatable-column>
+  
+                  <ngx-datatable-column name="description" [flexGrow]="2">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'FILTER.DESCRIPTION' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      <span title="{{value}}">{{ (value.length>300)? (value | slice:0:300)+'...':(value) }}</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+  
+                  <ngx-datatable-column name="brand" [flexGrow]="1">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'PUBLICATION.BRAND_LABEL' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{value}}
+                    </ng-template>
+                  </ngx-datatable-column>
+  
+                  <ngx-datatable-column name="codigoAlfa" [flexGrow]="1">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'FILTER.REF' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{value}}
+                    </ng-template>
+                  </ngx-datatable-column>
+  
+                  <ngx-datatable-column name="stock" [flexGrow]="1">
+                    <ng-template let-column="column" ngx-datatable-header-template>
+                      {{ 'INVENTARIO_POPUPS.STOCK' | translate }}
+                    </ng-template>
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                      {{value}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+  
+                <div style="padding-left:10px; padding-bottom: 15px; background: #388B8D; color: #ffffff;">
+                  {{countSeleccionadosTotal}} {{ 'INVENTARIO_POPUPS.SELECTED' | translate }} / {{countTotal}} Total
+                  ({{ 'INVENTARIO_POPUPS.WITHOUT_FILTERS' | translate }})
+                </div>
+              </div>
+              <!-- end table filter -->
+              <br>
+            </div>
+            <!--<br>-->
+          </div>
+        </div>
+        <div class="modal-footer" *ngIf="!isLoading">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="ok()">{{ 'BUTTONS.ADD' | translate
+            }} ({{countSeleccionadosTotal}})</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cancel()">{{ 'BUTTONS.CANCEL' |
+            translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <!-- 
+  </section> -->

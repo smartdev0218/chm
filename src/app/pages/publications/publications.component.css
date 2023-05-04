@@ -1,0 +1,7 @@
+@media (min-width: 768px){
+
+.modal-content {
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.125);
+    box-shadow: 0 0 10px rgba(0,0,0,0.125);
+}
+}

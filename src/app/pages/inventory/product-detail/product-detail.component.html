@@ -1,0 +1,188 @@
+<div class="md-progress-bar" *ngIf="isLoading">
+  <div class="indeterminate"></div>
+</div>
+<div class="modal-content" style="width: 120%;" *ngIf="!isLoading" id="prod_detail">
+  <div class="modal-header header-color minimal-color">
+    <button type="button" class="close" aria-label="Close" (click)="onCancel()">
+       <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+    <h4 class="modal-title">{{ productDetail.brand }} {{ productDetail.codigoAlfa }}</h4>
+  </div>
+
+  <div class="modal-body" >
+    <div class="row">
+      <div class="row">
+        <div class="col-md-1">
+
+        </div>
+
+        <div class="col-md-3">
+          <img [src]="productDetail.imageThumbnail" onError="this.src='assets/img/V.jpg'" style="width:120px; height: 120px; border: 1px solid;" >
+        </div>
+        <div class="col-md-8">
+          <b>{{ 'INVENTARIO_POPUPS.PRODUCT_MODEL' | translate }}</b>
+          <p>{{ 'FILTER.MARCA' | translate }}: {{ productDetail.brand }}</p>
+            <p> {{ productDetail.description }}
+            </p>
+        </div>
+      </div>
+      <br>
+      <br>
+
+
+      <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-3">
+          <b>{{ 'INVENTARIO_POPUPS.TOTAL_VENTAS' | translate }} : {{ productDetail.stockTotalPublicated }}</b>
+        </div>
+  <!--       <div class="col-md-4">
+          <b> {{ 'INVENTARIO_POPUPS.PRECIO_MEDIO' | translate }}: {{ productDetail.stockTotalPublicated}}</b>
+        </div> -->
+        <div class="col-md-3">
+          <b>{{ 'INVENTARIO_POPUPS.TOTAL_STOCK' | translate }}: {{ productDetail.stock }}</b>
+        </div>
+        <div class="col-md-5">
+
+        </div>
+      </div>
+
+
+      <br>
+
+      <div class="row">
+
+        <div class="col-md-1">
+
+        </div>
+
+        <div class="col-md-10">
+
+        <tabset class="nav-tabs-custom nav-tabs-ficha">
+          <tab *ngFor="let channel of productChannels" heading="{{channel.name}}" id="{{channel.channelId}}" >
+
+            <div class="tab-pane active" id="{{channel.name}}">
+              <br>
+              <ul>
+              	<li>             
+                  <span *ngFor="let channelDetail of productDetail.publishInChannelDetail">
+                    <table style="width: 50%" class="table no-margin table-outer-border-background" *ngIf="channelDetail.channel.channelId == channel.channelId ">     
+	                  	<tr>
+	                  		<td colspan="2" style="text-align: center;">{{ 'INVENTARIO_POPUPS.STATE_IN_CHANNEL' | translate }}</td>
+	                  	</tr>
+	                  	<tr>
+	                  		<td>{{ 'INVENTARIO_POPUPS.PUBLICADO' | translate }}</td>
+	                  		<td>
+	                  			<span *ngIf="channelDetail.publishedInChannel" style="color: green;">&#10004;</span>
+	                  			<span *ngIf="!channelDetail.publishedInChannel" style="color:red;">&#10008;</span>
+	                  		</td>
+	                  	</tr>
+	                  	<tr>
+	                  		<td>{{ 'INVENTARIO_POPUPS.PRECIO' | translate }}</td>
+	                  		<td>
+	                  			{{channelDetail.priceOnChannel}}
+                  			</td>
+	                  	</tr>
+	                  	<tr>
+	                  		<td>{{ 'INVENTARIO_POPUPS.STOCK' | translate }}</td>
+	                  		<td>
+	                  			{{channelDetail.stockOnPublication}}
+                  			</td>
+	                  	</tr>
+	                  	<tr>
+	                  		<td>{{ 'INVENTARIO_POPUPS.PUBLICATION' | translate }}</td>
+	                  		<td>
+	                  			<span *ngIf="channelDetail.publishedInChannel">{{channelDetail.publicationName}}</span>
+	                  			<span *ngIf="!channelDetail.publishedInChannel">-</span>
+                  			</td>
+	                  	</tr>
+                        <tr *ngIf="channelDetail.quality">
+                            <td>{{ 'INVENTARIO_POPUPS.QUALITY' | translate }}</td>
+                            <td>
+                                <span>{{channelDetail.quality.health}}%</span>
+                                <div *ngIf="channelDetail.quality.pendingGoals && channelDetail.quality.pendingGoals.length > 0">
+                                    <span>{{'INVENTARIO_POPUPS.PENDING_GOALS' | translate}}:</span>
+                                    <ul class="product-quality-pending-goals">
+                                        <li *ngFor="let pendingGoal of channelDetail.quality.pendingGoals">{{pendingGoal}}</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+	                  	<tr>
+	                  		<td>{{ 'INVENTARIO_POPUPS.ERROR' | translate }}</td>
+	                  		<td>	                  			
+	                  			<span title="{{channelDetail.error}}">{{ (channelDetail.error && channelDetail.error.length>20)? (channelDetail.error | slice:0:20)+'...':(channelDetail.error) }}</span>
+                  			</td>
+                        </tr>
+                        <tr>
+	                  		<td>ID</td>
+	                  		<td>
+	                  			<span title="{{channelDetail.idItemChannel}}">{{channelDetail.idItemChannel}}</span>
+                  			</td>
+	                  	</tr>
+                    </table>
+                  </span>
+              	</li>
+                <li>
+                  <table class="table no-margin table-outer-border-background" >
+                    <tr>
+                      <td>{{ 'INVENTARIO_POPUPS.PUBLICATIONS_OF_CHANNEL' | translate }}</td>
+                      <td>{{ 'PUBLICATION.PRIORITY' | translate }}</td>
+                      <td></td>
+                    </tr>
+                    <ng-container *ngFor="let publication of publicationsStatuslistFinal ">
+                      <tr *ngIf="publication.channel.channelId == channel.channelId ">
+                        <td class="word-wrap-name">  
+                          {{publication.name}}
+                        </td>
+                        <td class="word-wrap-name" >
+                          {{publication.priority}}
+                        </td>
+                        <td style="text-align: right;">
+                          <button class="btn btn-primary btn-xs" (click)="goProductConfirmationForm(publicar,publication.publicationId, productDetail)">{{ 'INVENTARIO_POPUPS.PUBLICAR' | translate }}</button>
+                        </td>
+                      </tr>
+                    </ng-container>
+
+                    <ng-container *ngFor="let publicationdetail of productDetail.publishInDetail">
+                      <tr  *ngIf="publicationdetail.publication.channel.channelId == channel.channelId ">
+                        <td class="word-wrap-name" >
+                          {{publicationdetail.publication.publicationName}}
+                        </td>
+                        <td class="word-wrap-name" >
+                          {{publicationdetail.publication.priority}}
+                        </td>
+                        <td style="text-align: right;">
+                          <button class="btn btn-primary btn-xs" (click)="goProductConfirmationForm(dejardepublicar,publicationdetail.publication.publicationId, productDetail)">{{ 'INVENTARIO_POPUPS.DEJAR_DE_PUBLICAR' | translate }}</button>
+                        </td>
+                      </tr>
+
+                    </ng-container>
+
+                    <ng-container *ngIf="channeldatafound.indexOf(channel.channelId) == -1">
+                      <tr>
+                        <td colspan="5">
+                            {{ 'INVENTARIO_POPUPS.NO_PUBLICATIONS' | translate }}
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </table>
+
+                </li>
+              </ul>
+            </div>
+          </tab>
+        </tabset>
+
+        </div>
+
+        <div class="col-md-1">
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

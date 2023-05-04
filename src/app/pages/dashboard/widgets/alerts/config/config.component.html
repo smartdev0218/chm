@@ -1,0 +1,70 @@
+<div class="modal-header minimal-color">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="onCancel()">
+        <i aria-hidden="true" class="fa fa-times"></i>
+    </button>
+    <h4 class="modal-title pull-left">{{ 'DASHBOARD_ALERTS.ALERT_WIDGET_CONFIGURATION' | translate }}</h4>
+</div>
+<div class="modal-body">
+
+    <section class="alert-types">
+        <p>{{ 'DASHBOARD_ALERTS.ALERT_TYPE_DESC' | translate }} </p>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value=""> {{ 'DASHBOARD_ALERTS.TIPO_A' | translate }}</label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value=""> {{ 'DASHBOARD_ALERTS.TIPO_B' | translate }}</label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value=""> {{ 'DASHBOARD_ALERTS.TIPO_C' | translate }}</label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value=""> {{ 'DASHBOARD_ALERTS.TIPO_D' | translate }}</label>
+        </div>
+    </section>
+
+    <div class="form-group">
+        <label for="sel1">{{ 'DASHBOARD_ALERTS.ORDER_CRITERIA' | translate }}</label>  
+        <div class="custom-select">
+        <select class="form-control" style="width:200px;">
+            <option>{{ 'DASHBOARD_ALERTS.CRITERIO_1' | translate }} </option>
+            <option>{{ 'DASHBOARD_ALERTS.CRITERIO_2' | translate }} </option>
+            <option>{{ 'DASHBOARD_ALERTS.CRITERIO_3' | translate }} </option>
+            <option>{{ 'DASHBOARD_ALERTS.CRITERIO_4' | translate }}  </option>
+        </select>
+        </div>
+    </div>
+</div>
+<!-- <div class="modal-footer">
+    <div class="text-right">
+        <button type="submit" class="btn btn-success" (click)="onSubmit()">
+            Submit
+        </button>
+        <button type="button" class="btn btn-default" (click)="onCancel()">
+            Cancel
+        </button>
+    </div>
+</div> -->
+
+<!-- <h4 md-dialog-title>Configuración de widget de alertas</h4>
+<md-dialog-content>
+    <section class="alert-types">
+        <p>Tipos de alertas que se mostrarán:</p>
+        <md-checkbox>Tipo A</md-checkbox> <br>
+        <md-checkbox>Tipo B</md-checkbox> <br>
+        <md-checkbox>Tipo C</md-checkbox> <br>
+        <md-checkbox>Tipo D</md-checkbox>
+    </section>
+    <section class="order">
+        <p>Ordenar alertas por:</p>
+        <md-select placeholder="Criterios de orden" floatPlaceholder="never">
+            <md-option>Criterio 1</md-option>
+            <md-option>Criterio 2</md-option>
+            <md-option>Criterio 3</md-option>
+            <md-option>Criterio 4</md-option>
+        </md-select>
+    </section>
+</md-dialog-content> -->

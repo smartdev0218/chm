@@ -1,0 +1,20 @@
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>{{ 'DASHBOARD_CHNL_STATUS.AUTHORIZATION_MESSAGE' | translate:{channelName: channel.channelName} }}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <img class="center-block" src="{{channel.channelImage}}" alt="{{channel.channelName}}" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <button type="button" class="btn btn-link btn-close pull-right" (click)="closeMe()">{{'BUTTONS.CANCEL' | translate}}</button>
+        </div>
+        <div class="col-xs-6">
+            <button type="button" class="btn btn-link" (click)="goToGetCredentials()">{{'BUTTONS.GO' | translate}}...</button>
+        </div>
+    </div>
+</div>

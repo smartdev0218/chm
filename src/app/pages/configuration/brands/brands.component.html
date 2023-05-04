@@ -1,0 +1,139 @@
+<section style="margin-bottom:10px;" *ngIf="isTabLoading || isLoading">
+  <div class="md-progress-bar">
+    <div class="indeterminate"></div>
+  </div>
+</section>
+
+<section *ngIf="!isTabLoading">
+
+  <div class="row">
+    <div class="col-md-12" *ngIf="channels.length == 0">
+      {{ 'BRANDS.NO_CHANNELS_FOUND' | translate}}
+    </div>
+  </div>
+
+  <div class="col-md-12 row" *ngIf="channels.length != 0">
+    <!-- Custom Tabs -->
+    <div class="nav-tabs-custom">
+
+        <div class="form-group" style="padding: 3rem 2.5rem 0;">
+            <label for="selectChannel">{{ 'BRANDS.CHANNEL_SELECT' | translate }}</label>
+            <div class="custom-select">
+              <select class="form-control" [(ngModel)] = "selectedChannel"  (change)="getChannelData(selectedChannel)">
+                <option *ngFor="let channel of channels" [ngValue]="channel">{{channel.name}}</option>
+              </select>
+            </div>
+          </div>
+
+
+
+      <!-- <ul class="nav nav-tabs">
+        <li class="active" *ngFor="let channel of channels.slice(0, 1)" id="tab{{channel.channelId}}link">
+          <a href="#tab_1" data-toggle="tab" aria-expanded="true" (click)="getChannelData(channel)">{{channel.name}}</a>
+        </li>
+        <li class="" *ngFor="let channel of channels.slice(1, channels.length)" id="tab{{channel.channelId}}link">
+          <a href="#tab_1" data-toggle="tab" aria-expanded="true" (click)="getChannelData(channel)">{{channel.name}}</a>
+        </li>
+      </ul> -->
+      <div class="tab-content"> 
+
+        <div class="row col-md-12">
+          <div class="row" style="padding:10px;">
+            <div class="col-md-12">
+              <p style="text-align: center;" class="h4">
+                <strong>{{ 'BRANDS.HEADER1' | translate}} {{ mappedCount }}
+                {{ 'BRANDS.HEADER2' | translate}}  {{ totalCount }}
+                {{ 'BRANDS.HEADER3' | translate}}  
+                </strong>
+              </p>
+            </div>
+          </div>
+
+          <div class="row" >
+            <div class="col-md-6">
+              <span class="pull-left font-size-16">
+                <strong>{{ 'BRANDS.HERMES_BRAND_HEADER' | translate}}</strong>
+              </span>
+            </div>
+            <div class="col-md-6">
+              <span class="pull-left font-size-16">
+                <strong>{{ 'BRANDS.CHANNEL_BRAND_HEADER' | translate}} {{activeChannel.name}} </strong>
+              </span>
+            </div>
+          </div>
+          <br>
+          <div class="row" >
+            <div class="col-md-6">
+              <!-- <span class="pull-right"> -->
+                <input type="text" class="form-control " [(ngModel)]="queryHermesBrand" id="search" placeholder="{{ 'BRANDS.SEARCH_PLACEHOLDER' | translate}}">
+              <!-- </span> -->
+            </div>
+            <div class="col-md-6">
+              <!-- <span class="pull-right"> -->
+                <input type="text"  class="form-control " [(ngModel)]="queryChannelBrand" id="search" placeholder="{{ 'BRANDS.SEARCH_PLACEHOLDER' | translate}}">
+              <!-- </span> -->
+            </div>
+          </div>
+          <br>
+          <div class="row" >
+            <div class="col-md-6">
+              <label>{{ 'BRANDS.TYPE' | translate}}: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <label class="radio-inline">
+                <input type="radio" name="hermesBrandType" checked="checked" value='all' (change)="filterHermesBrands($event)">{{ 'BRANDS.ALL' | translate}}</label>
+              <label class="radio-inline">
+                <input type="radio" name="hermesBrandType" value='Mapped' (change)="filterHermesBrands($event)">{{ 'BRANDS.MAPPED' | translate}}</label>
+              <label class="radio-inline">
+                <input type="radio" name="hermesBrandType" value='Not Mapped' (change)="filterHermesBrands($event)">{{ 'BRANDS.NOT_MAPPED' | translate}}</label>
+            </div>
+            <div class="col-md-6">
+              <label>{{ 'BRANDS.TYPE' | translate}}: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+              <label class="radio-inline">
+                <input type="radio" name="channelBrandType" checked="checked" value='all' (change)="filterChannelBrands($event)">{{ 'BRANDS.ALL' | translate}}</label>
+              <label class="radio-inline">
+                <input type="radio" name="channelBrandType" value='Mapped' (change)="filterChannelBrands($event)">{{ 'BRANDS.MAPPED' | translate}}</label>
+              <label class="radio-inline">
+                <input type="radio" name="channelBrandType" value='Not Mapped' (change)="filterChannelBrands($event)">{{ 'BRANDS.NOT_MAPPED' | translate}}</label>
+            </div>
+          </div>
+
+          <div class="row" >
+            <!-- Hermes Brand -->
+            <div class="col-md-6" *ngIf="hermesBrandsWithStatus.length != 0">
+              <div class="categorias-parent-div right-sidebar">
+                <div class="" *ngFor="let hermesBrand of hermesBrandsWithStatus | searchfilter: queryHermesBrand">
+                  <span [style.color]="hermesBrand.isMapped ? '#aba1a1' : ''">
+                    <div dnd-draggable [dragEnabled]="!hermesBrand.isMapped" [dragData]="hermesBrand" class="devBotonCat parent-category-site">
+                    <i [class]="hermesBrand.isMapped ? 'fa fa-ban' : 'fa fa-arrows-alt'"></i> &nbsp;&nbsp;&nbsp;
+                      {{hermesBrand.name}}
+                    </div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- Channel Brands With Childrens -->
+            <div class="col-md-6" *ngIf="channelBrandsWithChildrens.length != 0">
+              <div class="categorias-canals right-sidebar">
+                <div *ngFor="let item of channelBrandsWithChildrens | searchfilter: queryChannelBrand">
+                  <div dnd-droppable (onDropSuccess)="addMapping($event, item)" class=" parent-category-canal">
+                      <div  >
+                         &nbsp;&nbsp;&nbsp; {{item.name}}
+                      </div>
+                  </div>
+                      <div class="categorias-div-canals">
+                        <label class=" hijo canal-sub-categories" *ngFor="let subitem of item.children" style="width: 100%">
+                          {{subitem.name}} &nbsp;&nbsp;&nbsp;
+                          <a href="javascript:void(0)" (click)="removeMapping(item,subitem)" style="color: red;">&#10006;</a>
+                        </label>
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+      <!-- Custom Tabs End -->
+  
+
+</section>

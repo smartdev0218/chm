@@ -1,0 +1,56 @@
+.messenger-channel-image {
+    height: 40px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+p.form-control-static.text-plain {
+    white-space: pre-wrap;
+}
+
+.predefined-answers-container, .history-container {
+    border: 1px solid #CCC;
+    max-height: 200px;
+    overflow: auto;
+    padding: 5px 10px;
+}
+
+.history-message {
+    padding: 5px 0;
+}
+
+.history-message .history-date {
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.predefined-answers-container ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.predefined-answers-container ul li label {
+    white-space: nowrap;
+    width: 100%;
+    cursor: pointer;
+}
+
+.predefined-answers-container ul li label input {
+    vertical-align: sub;
+}
+
+.predefined-answers-container .predefined-answer-empty {
+    text-align: center;
+    opacity: 0.75;
+}
+
+.predefined-answer-action {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.predefined-answer-action.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

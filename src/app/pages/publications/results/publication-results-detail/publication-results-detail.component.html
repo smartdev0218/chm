@@ -1,0 +1,29 @@
+<!-- Cierre modal -->
+<!-- <button [md-dialog-close] md-icon-button style="float:right;margin-top: -20px;margin-right: -20px;">
+    <md-icon>close</md-icon>
+</button> -->
+
+<!-- Header modal -->
+<!-- <section class="dialog-header">
+    <h4 md-dialog-title>Resultado de la publicación {{ publicationName }}</h4>
+    <p md-dialog-subtitle>Listado de productos</p>
+</section> -->
+
+<!-- Contenido modal -->
+<!-- <md-dialog-content>
+    <chm-publication-results-detail-table [idPublicationResult]='idPublicationResult'></chm-publication-results-detail-table>
+</md-dialog-content> -->
+
+<div class="modal-content" style="width:1100px; position:absolute; left: 50%; margin-left:-550px;">
+	<div>
+		<div class="modal-header minimal-color">
+		  <button type="button" class="close" aria-label="Close"  (click)="cancel()">
+		    <span aria-hidden="true" >&times;</span>
+		  </button>
+		  <h4 class="modal-title">{{ 'PUBLICATION.PUBLICATION_RESULT_DETAIL_HEADER' | translate}} {{ publicationName }}</h4>
+		</div>
+		<div class="modal-body" style="width:1100px;">
+			<chm-publication-results-detail-table [idPublicationResult]='idPublicationResult'></chm-publication-results-detail-table>
+		</div>
+	</div>
+</div>

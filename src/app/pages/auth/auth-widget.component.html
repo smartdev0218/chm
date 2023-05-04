@@ -1,0 +1,26 @@
+<div class="chm-auth-widget">
+
+        <div class="btn-group" dropdown>
+            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                <i class="fas fa-user-circle"></i>
+                <span>{{ username }}</span>
+                <span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                <li role="menuitem">
+                    <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+                </li>               
+            </ul>
+        </div>
+<!-- 
+    <button md-button [mdMenuTriggerFor]="authWidgetMenu">
+        <i class="fas fa-user-circle"></i>
+        <span>{{ username }}</span>
+    </button>
+    <md-menu #authWidgetMenu="mdMenu">
+        <button md-menu-item (click)="logout()">
+            <md-icon>exit_to_app</md-icon>
+            <span>Logout</span>
+        </button>
+    </md-menu> -->
+</div>

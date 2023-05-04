@@ -1,0 +1,141 @@
+<form #resultsForm="ngForm" class="editForm publicationsummary" novalidate>
+  <section>
+    <div class="md-progress-bar" *ngIf="isLoading">
+      <div class="indeterminate"></div>
+    </div>
+    <div class="modal-content box-shadow-none" *ngIf="!isLoading">
+  <!--     <div class="modal-header minimal-color">
+        <h4 class="modal-title">NUEVA PUBLICACIÓN en ebay</h4>
+      </div> -->
+      <div class="modal-body">
+        <p class="titulo">{{ 'PUBLICATION.STEP_4_OF_4' | translate }}</p>
+        <hr>
+         <div class="row">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-8">
+            <div class="step4-div-border">
+              <div class="heading-bg padding-div-text">
+                <p>
+                  {{ 'PUBLICATION.INFORMATION_GENERAL' | translate }}
+                </p>
+              </div>
+              <br>
+              <div class="padding-div-text">
+                <i class="fa fa-check-circle fa-lg float-right" aria-hidden="true"></i>
+                <p>
+                  <b> {{ 'PUBLICATION.PUBLICATION_NAME' | translate }} </b> {{formData.name}}
+                </p>
+                <p>
+                  <b> {{ 'FILTER.DESCRIPTION' | translate }}: </b> {{formData.description}}
+                </p>
+                <p>
+                  <b> {{ 'PRESETS.CHANNEL' | translate }}: </b> {{formData.channel.name}} </p>
+                <p>
+                  <b> {{ 'PUBLICATION.PERIOD_OF_PUBLICATION' | translate }}: </b> {{formData.startDate}} - {{formData.finishDate}}
+                </p>
+                <p>
+                  <a href="javascript:void(0)" (click)="goToGeneralForm()" class="a-link"> {{ 'PUBLICATION.GOTO_GENERAL' | translate }} </a>
+                </p>
+              </div>
+            </div>
+            <br>
+
+            <div class="step4-div-border">
+              <div class="heading-bg padding-div-text">
+                <p>
+                  {{ 'PUBLICATION.PRODUCTS_DIV_HEADER' | translate }}
+                </p>
+              </div>
+              <br>
+              <div class="padding-div-text">
+                <div *ngIf="this.formDataService.getProducts2().length !== 0">
+                  <i class="fa fa-check-circle fa-lg float-right" aria-hidden="true"></i>
+                  <p><b>Total:</b> {{formData.products.length}}</p>  
+                  <p>
+                    <a href="javascript:void(0)" (click)="goToProductsForm()" class="a-link"> {{ 'PUBLICATION.GOTO_PRODUCTS' | translate }}</a>
+                  </p>
+                </div>
+
+                <div *ngIf="this.formDataService.getPublicationModel()['autoPublish']">
+                  <i class="fa fa-check-circle fa-lg float-right" aria-hidden="true"></i>
+                  <p><b>{{ 'PUBLICATION.AUTOPUBLICATION_ON' | translate }}</b> </p>  
+                </div>
+
+
+                <div *ngIf="this.formDataService.getProducts2().length === 0">
+                  <i class="fa fa-exclamation-circle  fa-lg float-right" aria-hidden="true"></i>
+                  <p>
+                    <b>{{ 'PUBLICATION.PRODUCTS_DIV_DESC' | translate }} </b>
+                  </p>
+                  <p>
+                    <a href="javascript:void(0)" (click)="goToProductsForm()" class="a-link"> {{ 'PUBLICATION.GOTO_PRODUCTS' | translate }}</a>
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+            <br>
+            <div class="step4-div-border">
+              <div class="heading-bg padding-div-text">
+                <p>
+                  {{ 'PUBLICATION.PUBLISHING_RULES' | translate }}
+                </p>
+              </div>
+              <br>
+              <div class="padding-div-text">
+
+                <div *ngIf="this.formDataService.getModels().length !== 0">
+                  <i class="fa fa-check-circle fa-lg  float-right" aria-hidden="true"></i>
+                  <p> {{ 'PUBLICATION.PUBLISHING_RULES_DESC_TRUE' | translate }} </p>
+                
+                  <p *ngFor="let model of formData.models">{{model.modelName}}</p>
+                  <p>
+                    <a href="javascript:void(0)" (click)="goToModelsForm()" class="a-link">Go to Rules</a>
+                  </p>
+                </div>
+                
+                <div *ngIf="this.formDataService.getModels().length === 0">
+                  <i class="fa fa-exclamation-circle  fa-lg float-right" aria-hidden="true"></i>
+                  <p>
+                    <b> {{ 'PUBLICATION.PUBLISHING_RULES_DESC_FALSE' | translate }}</b>
+                  </p>
+                  <p>
+                    <a href="javascript:void(0)" (click)="goToModelsForm()" class="a-link">{{ 'PUBLICATION.GOTO_RULES' | translate }}</a>
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="col-md-2">
+          </div>
+
+        </div>
+
+      </div>
+	  
+	   <div class="row">
+      <div class="col-md-5"></div>
+      <div class="col-md-7">
+        <button class="btn btn-danger inner" (click)="cancel()">
+          <span style="margin-right:10px;" class="glyphicon glyphicon-remove"></span> {{ 'BUTTONS.CANCEL' | translate }}</button>
+        <button class="btn btn-outline-rounded " (click)="goToPrevious(resultsForm)">
+          <span style="margin-right:10px;" class="glyphicon glyphicon-arrow-left"></span> {{ 'BUTTONS.PREVIOUS' | translate }}</button>
+        <button class="btn btn-success btn-outline-rounded btn-success" [disabled]="!isFormValid" (click)="submit()"> {{ 'BUTTONS.SUBMIT' | translate }}
+          <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span>
+        </button>
+      </div>
+    </div>
+	  
+    </div>
+    
+  </section>
+
+
+
+</form>

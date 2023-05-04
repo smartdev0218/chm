@@ -1,0 +1,10 @@
+.dialog-header {
+    height: 100px;
+}
+
+.close{
+
+    color: #fff !important;
+    filter: alpha(opacity=20);
+     opacity: 1.2; 
+}

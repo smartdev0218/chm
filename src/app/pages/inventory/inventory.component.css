@@ -1,0 +1,121 @@
+.header-color{
+	background-color: #0E3F58;
+	color: white;
+}
+
+.tab-border{
+	border: solid 1px #0E3F58; 
+}
+
+.nav-tabs-custom>.nav-tabs>li.active>a {
+	border-left-color: #0E3F58;
+	border-right-color: #0E3F58;
+}
+
+.button-center{
+	text-align: center;
+}
+
+/*.modal-position{
+	margin-top: 50%;
+}*/
+
+.size-img{
+	height: 40px;
+	width: 90px;
+}
+.size-imgv{
+	height: 50px;
+	width: 50px;
+}
+
+.firstdiv-height{
+	height: 761px !important;
+}
+
+.seconddiv-height{
+	height: 700px !important;
+	overflow-y: scroll !important;
+}
+
+.initial-container-height {
+  height: 843px !important;
+}
+.filter-mid-border-line{
+  border-left: 0px;
+  height: 795px;
+}
+
+.export-text{
+	display: inline-block;
+	padding-right: 1rem;
+	padding-left: 2rem;
+}
+
+.export-bottons{
+	padding-right: 2rem;
+}
+
+.datatable-body{
+	scrollbar-width: thin !important;
+    overflow-y: scroll !important;
+}
+
+/*Filtros Inventario*/
+.filter-input-container{
+	display:none;
+	position: absolute!important;
+    z-index: 10;
+    background: white;
+    box-shadow: 10px 10px 25px -10px #555;
+    padding-top: 20px;
+    top: -10px;
+	height:auto!important;
+	max-height:100%;
+	width:35%;
+}
+
+
+.barrafiltros{padding:0 15px 20px 15px;}
+.filtro_seleccionado{display:inline-block;margin-left:10px;}
+.bt_mostrarfiltros{
+	text-transform: uppercase;
+    padding: 10px;
+	font-weight: bold;
+	background: #f2f2f2;
+	text-decoration:none;
+	display:inline-block;
+	cursor:pointer;
+}
+.bt_mostrarfiltros:hover{
+	background:#124f6e;
+	color:white;
+	
+}
+.bt_mostrarfiltros:hover i{
+	color:white;
+}
+.bt_borrarfiltros{
+	padding: 10px;
+	border:1px solid #0d5077;
+	color: #0d5077;
+	margin-left:10px;
+}
+.bt_borrarfiltros:hover{
+	background: #0d5077;
+	color:white;
+}
+.bt_borrarfiltros:hover i{
+	color:white;
+}
+.bt_cerrarfiltros{
+	cursor:pointer;
+}
+.bt_cerrarfiltros:hover{color:#388B8D;}
+.bt_cerrarfiltros:hover i{color:#388B8D;}
+
+.filter-input-container>form>div{padding-left:15px;}
+.filter-input-container>form>div>div{padding-left:0;}
+.filter-input-container>form>div>div.bold{cursor:pointer;}
+.filter-input-container>form>div>div.bold:hover{color:#388B8D;}
+.filter-input-container>form>div>div.filter-scroll{display:none;}

@@ -1,0 +1,83 @@
+<div class="row" *ngIf="isLoading">
+  <div class="col-sm-12">
+    <div class="md-progress-bar">
+      <div class="indeterminate"></div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="!isLoading">
+  <ngx-datatable class="dark" [rows]="rows" [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
+    [footerHeight]="50" [rowHeight]="'auto'" [limit]="8" [messages]="{totalMessage: 'DATATABLE.TOTAL_MESSAGE' | translate, emptyMessage: 'DATATABLE.EMPTY_MESSAGE' | translate}">
+
+    <ngx-datatable-column name="checkType">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        {{ 'DASHBOARD_CHNL_STATUS.EXECUTION' | translate }}
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="date">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        {{ 'DASHBOARD_CHNL_STATUS.ENDDATE' | translate }}
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="time">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        {{ 'DASHBOARD_CHNL_STATUS.TIME' | translate }}
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="statusImg">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        {{ 'COMMON_WORDS.STATUS' | translate }}
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        <div style="text-align: center;">
+          <img style="background-repeat: no-repeat;display: inline-block;fill: currentColor;height: 16px;width: 16px;"
+            src="{{value}}" alt="{{value}}" />
+        </div>
+
+      </ng-template>
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-column name="resultadoPublicacion" [flexGrow]="2">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        {{ 'COMMON_WORDS.METHODS' | translate }}
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value.methodName}}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="idPublication">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        {{ 'COMMON_WORDS.ACTIONS' | translate }}
+      </ng-template>
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <div *ngIf="row.statusName != 'OK' " style="text-align: center;">
+          <a href="javascript:void(0)"><i class="fa fa-eye icons-size skin-blue-secondary" (click)="goPublicationResultList(row)"
+              title="Ver"></i> </a>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+
+  </ngx-datatable>
+
+</div>
+<ng-template #cellTemplate let-row="row" let-value="value">
+  <!-- <chm-dashboard-status-sign [status]="value"></chm-dashboard-status-sign> -->
+  <img style="background-repeat: no-repeat;display: inline-block;fill: currentColor;height: 16px;width: 16px;" src="{{row.statusImg}}"
+    alt="{{row.statusName}}" />
+</ng-template>

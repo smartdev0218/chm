@@ -1,0 +1,82 @@
+<div class="widget">
+
+<!-- Categorías del Site -->
+<div class="col-md-6" *ngIf="listParentEcommerceCategories.length != 0">
+   
+   <p><b>{{ 'CATEGORIES.SITE_CATEGORIES' | translate}}</b></p>
+   
+   <div class="row  col-md-12 ">
+      <input type="text" class="form-control "  [(ngModel)]="queryEcommerceCat" id="search" placeholder="{{ 'CATEGORIES.BROWSE_CATEGORIES' | translate}}" >
+   </div>
+
+   <br><br><br>
+
+   <!-- Filtro Mapeadas/NoMapeadas/Todas -->
+   <div class="col-xs-12">
+      <label>{{ 'COLORS.TYPE' | translate}}: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+      <label class="radio-inline">
+      <input type="radio" name="filterCategorySite" checked="checked" value='all' (change)="filterSite($event)">{{ 'COLORS.ALL' | translate}}</label>
+      <label class="radio-inline">
+      <input type="radio" name="filterCategorySite" value='Mapped' (change)="filterSite($event)">{{ 'COLORS.MAPPED' | translate}}</label>
+      <label class="radio-inline">
+      <input type="radio" name="filterCategorySite" value='Not Mapped' (change)="filterSite($event)">{{ 'COLORS.NOT_MAPPED' | translate}}</label>
+   </div>
+
+   <!-- Listado de categorías del site -->
+   <div class="col-md-12 row" >
+      <div class="categorias-parent-div right-sidebar">
+         <div class=""  *ngFor="let item of fListParentEcommerceCategories | searchfilter: queryEcommerceCat">
+            <span [style.color]="item.asociada ? '#aba1a1' : ''">
+              <div  dnd-draggable [dragEnabled]="true" [dragData]="item" class="devBotonCat parent-category-site" >
+                <i [class]="item.asociada ? 'fa fa-ban' : 'fa fa-arrows-alt'"></i> &nbsp;&nbsp;&nbsp;
+                {{item.name}} <span *ngIf="mostrarIdsCategorias"> ({{item.id}})</span>
+              </div>
+           </span>
+        </div>
+     </div>
+  </div>
+</div>
+
+<!-- Categorías Canal -->
+<div class="col-md-6"  *ngIf="listParentChannelCategories.length != 0" >
+
+   <p style="margin-left: -13px;"><b>{{ 'CATEGORIES.CHANNEL_CATEGORIES' | translate}}</b></p>
+
+   <div class="row col-md-12 pad-left-0">
+      <input type="text" class="form-control"  [(ngModel)]="queryChannelCat" id="search" placeholder="{{ 'CATEGORIES.BROWSE_CATEGORIES' | translate}}"> 
+   </div>
+
+   <br><br><br>
+
+   <!-- Filtro Mapeadas/NoMapeadas/Todas -->
+   <div class="col-md-12">
+      <label>{{ 'COLORS.TYPE' | translate}}: </label>&nbsp;&nbsp;&nbsp;&nbsp;
+      <label class="radio-inline">
+      <input type="radio" name="filterCategoryChannel" checked="checked" value='all' (change)="filterChannel($event)">{{ 'COLORS.ALL' | translate}}</label>
+      <label class="radio-inline">
+      <input type="radio" name="filterCategoryChannel" value='Mapped' (change)="filterChannel($event)">{{ 'COLORS.MAPPED' | translate}}</label>
+      <label class="radio-inline">
+      <input type="radio" name="filterCategoryChannel" value='Not Mapped' (change)="filterChannel($event)">{{ 'COLORS.NOT_MAPPED' | translate}}</label>
+   </div>
+
+   <!-- Listado de categorías del canal -->
+   <div class="categorias-canals right-sidebar col-md-12 row">
+      <div *ngFor="let item of fListParentChannelCategories | searchfilter: queryChannelCat" >
+         <div dnd-droppable (onDropSuccess)="dropCategory($event, item)" class=" parent-category-canal">
+            <div> {{item.nombre}}  <span *ngIf="mostrarIdsCategorias"> ({{item.idCategoriaEnCanal}})</span></div>
+         </div>
+         <div *ngIf="item.categoriaRel2 != null" style="font-stryle: italic; width: 95%; margin-left:5%;">
+            <div *ngFor="let catRel of item.categoriaRel2">              
+               <label class="parent-category-canal">&nbsp;&nbsp;&nbsp;&nbsp;{{catRel.name}} <span *ngIf="mostrarIdsCategorias"> ({{catRel.id}})</span>&nbsp;&nbsp;&nbsp; <a href="javascript:void(0)" (click)="disassociateCategory(catRel, item)" style="color: red;">&#10006;</a>&nbsp;</label>
+            </div>
+         </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Botón de Guardar -->
+<!-- <div class="col-md-12" *ngIf="listParentEcommerceCategories.length != 0 && listParentChannelCategories.length != 0" style="display: flex; justify-content: center;">
+   <a href="javascript:void(0)" class="devBotonCatGuardar btn btn-primary " (click)="saveMappedCategories($event)">{{ 'CATEGORIES.SAVE_MAPPING' | translate}}</a>      
+</div> -->
+
+</div>

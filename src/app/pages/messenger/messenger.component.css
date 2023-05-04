@@ -1,0 +1,28 @@
+.form-inline {
+    margin-bottom: 20px;
+}
+
+h4 {
+    margin-top: 30px;
+}
+
+.messenger-channel-image {
+    height: 34px;
+}
+
+em.fa {
+    font-size: 19px;
+}
+
+.export-buttons {
+    margin-top: -25px;
+    margin-right: 5px;
+}
+
+.loading-order {
+    position: fixed;
+    top: 35%;
+    width: 40%;
+    left: 30%;
+    z-index: 9999;
+}
